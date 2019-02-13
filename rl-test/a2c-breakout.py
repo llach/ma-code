@@ -2,22 +2,10 @@ import argparse
 
 from forkan.rl import make, A2C
 
-
-# mark env as solved once rewards were higher than 195 50 episodes in a row
-def solved_callback(rewards):
-    if len(rewards) < 50:
-        return False
-
-    for r in rewards[-50:]:
-        if r < 195:
-            return False
-
-    return True
-
-
 # algorithm parameters
 a2c_conf = {
-    'name': 'cart-a2c',
+    'name': 'a2c-breakout',
+    'policy_type': 'atari-conv',
     'total_timesteps': 1e5,
     'lr': 5e-4,
     'gamma': .95,
@@ -29,13 +17,15 @@ a2c_conf = {
     'clean_tensorboard_runs': True,
     'clean_previous_weights': True,
     'print_freq': 20,
-    'solved_callback': solved_callback,
 }
 
 # environment parameters
 env_conf = {
-    'eid': 'CartPole-v0',
-    'num_envs': 4,
+    'id': 'Breakout-v0',
+    'frameskip': 4,
+    'num_frames': 4,
+    'obs_type': 'image',
+    'target_shape': (200, 160),
 }
 
 # parse args
@@ -49,12 +39,11 @@ if args.run:
     a2c_conf['clean_previous_weights'] = False
 
 e = make(**env_conf)
-
 alg = A2C(e, **a2c_conf)
 
 if args.run:
-    print('Running a2c on {}'.format(env_conf['eid']))
+    print('Running a2c on {}'.format(env_conf['id']))
     alg.run()
 else:
-    print('Learning with a2c on {}'.format(env_conf['eid']))
+    print('Learning with a2c on {}'.format(env_conf['id']))
     alg.learn()

@@ -7,7 +7,6 @@ env_conf = {
     'id': 'Breakout-v0',
     'frameskip': 4,
     'num_frames': 4,
-    'num_envs': 3,
     'obs_type': 'image',
     'target_shape': (200, 160),
 }
