@@ -6,7 +6,7 @@ from forkan.rl import make, A2C
 a2c_conf = {
     'name': 'a2c-breakout',
     'policy_type': 'mnih-2013',
-    'total_timesteps': 1e5,
+    'total_timesteps': 10e6,
     'lr': 5e-4,
     'gamma': .95,
     'entropy_coef': 0.01,
@@ -24,9 +24,10 @@ env_conf = {
     'id': 'Breakout-v0',
     'frameskip': 4,
     'num_frames': 4,
-    'num_envs': 4,
+    'num_envs': 16,
     'obs_type': 'image',
-    'target_shape': (200, 160),
+    'target_shape': (110, 84),
+    'crop_ranges': [(17, 103), (4, 80)]
 }
 
 # parse args
