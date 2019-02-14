@@ -1,4 +1,5 @@
 import argparse
+import logging
 
 from forkan.rl import make, A2C
 
@@ -6,7 +7,7 @@ from forkan.rl import make, A2C
 a2c_conf = {
     'name': 'a2c-breakout',
     'policy_type': 'mnih-2013',
-    'total_timesteps': 10e6,
+    'total_timesteps': 1e6,
     'lr': 5e-4,
     'gamma': .95,
     'entropy_coef': 0.01,
@@ -16,7 +17,7 @@ a2c_conf = {
     'use_tensorboard': True,
     'clean_tensorboard_runs': True,
     'clean_previous_weights': True,
-    'print_freq': 20,
+    'print_freq': 10,
 }
 
 # environment parameters
@@ -35,6 +36,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--run', '-r', action='store_true')
 args = parser.parse_args()
 
+log = logging.getLogger(__name__)
+
 # remove keys from config so that the correct environment will be created
 if args.run:
     env_conf.pop('num_envs')
@@ -44,8 +47,8 @@ e = make(**env_conf)
 alg = A2C(e, **a2c_conf)
 
 if args.run:
-    print('Running a2c on {}'.format(env_conf['id']))
+    log.info('Running a2c on {}'.format(env_conf['id']))
     alg.run()
 else:
-    print('Learning with a2c on {}'.format(env_conf['id']))
+    log.info('Learning with a2c on {}'.format(env_conf['id']))
     alg.learn()
