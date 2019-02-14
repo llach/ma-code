@@ -1,4 +1,5 @@
 import argparse
+import logging
 
 from forkan.rl import make, A2C
 
@@ -42,6 +43,8 @@ env_conf = {
 parser = argparse.ArgumentParser()
 parser.add_argument('--run', '-r', action='store_true')
 args = parser.parse_args()
+
+log = logging.getLogger(__name__)
 
 # remove keys from config so that the correct environment will be created
 if args.run:
