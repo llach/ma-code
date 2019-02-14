@@ -5,7 +5,7 @@ from forkan.rl import make, A2C
 # algorithm parameters
 a2c_conf = {
     'name': 'a2c-breakout',
-    'policy_type': 'atari-conv',
+    'policy_type': 'mnih-2013',
     'total_timesteps': 1e5,
     'lr': 5e-4,
     'gamma': .95,
@@ -24,6 +24,7 @@ env_conf = {
     'id': 'Breakout-v0',
     'frameskip': 4,
     'num_frames': 4,
+    'num_envs': 4,
     'obs_type': 'image',
     'target_shape': (200, 160),
 }

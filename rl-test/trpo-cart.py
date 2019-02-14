@@ -45,7 +45,6 @@ if args.run:
     trpo_conf['clean_previous_weights'] = False
 
 e = make(**env_conf)
-
 alg = TRPO(e, **trpo_conf)
 
 if args.run:
