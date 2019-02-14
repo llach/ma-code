@@ -1,3 +1,7 @@
+# project related stuff
+playground.py
+plotplay.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
