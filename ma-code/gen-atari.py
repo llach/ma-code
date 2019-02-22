@@ -4,6 +4,7 @@ import scipy.misc
 
 import numpy as np
 
+from tqdm import tqdm
 from forkan import dataset_path
 from forkan.common.utils import create_dir
 from baselines.common.cmd_util import make_env
@@ -28,7 +29,7 @@ frames = np.zeros((TOTAL_FRAMES,)+e.observation_space.shape)
 obs = e.reset()
 
 log.info('generating frames')
-for step in range(TOTAL_FRAMES):
+for step in tqdm(range(TOTAL_FRAMES)):
 
     # normalize
     obs = obs / 255
