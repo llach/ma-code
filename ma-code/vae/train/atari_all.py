@@ -1,3 +1,5 @@
+import tensorflow as tf
+
 from forkan.models import VAE
 from forkan.datasets import load_atari_normalized
 
@@ -10,5 +12,6 @@ for name in ['pong', 'breakout', 'boxing', 'gopher', 'upndown']:
     v = VAE(data.shape[1:], name=name, lr=learning_rate, beta=beta, latent_dim=latents)
     v.train(data, num_episodes=50, print_freq=20)
 
+    tf.reset_default_graph()
     del data
     del v
