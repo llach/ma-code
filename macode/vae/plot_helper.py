@@ -96,9 +96,9 @@ def plot_losses(d):
             if line_count == 0:
                 for n, ele in enumerate(row):
                     print(ele)
-                    if ele == ' loss':
+                    if ele == 'loss':
                         l_idx = n
-                    elif ele == ' kl-loss':
+                    elif ele == 'kl-loss':
                         kl_idx = n
                 line_count += 1
             else:
