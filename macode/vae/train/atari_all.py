@@ -10,7 +10,7 @@ latents = 20
 for name in ['pong', 'breakout', 'boxing', 'gopher', 'upndown']:
     data = load_atari_normalized(name)
     v = VAE(data.shape[1:], name=name, lr=learning_rate, beta=beta, latent_dim=latents)
-    v.train(data, num_episodes=50, print_freq=20)
+    v.train(data, num_episodes=50, print_freq=-1)
 
     tf.reset_default_graph()
     del data
