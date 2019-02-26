@@ -10,6 +10,5 @@ args = [
     '--vae', 'True',
 ]
 
-
 main(args)
 pass
