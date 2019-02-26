@@ -7,7 +7,8 @@ learning_rate = 1e-2
 latents = 10
 opt = tf.train.AdagradOptimizer
 
-betas = [28.67, 40.96, 81.92] # also use crossent, disable TB
+# betas = [28.67, 40.96, 81.92]
+betas = [40.96]
 
 for beta in betas:
     (data, _) = load_dsprites('translation', repetitions=10)
