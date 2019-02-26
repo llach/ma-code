@@ -1,5 +1,4 @@
 import argparse
-import logging
 
 from forkan.rl import make, A2C
 
@@ -35,7 +34,7 @@ a2c_conf = {
 
 # environment parameters
 env_conf = {
-    'id': 'CartPole-v0',
+    'eid': 'CartPole-v0',
     'num_envs': 4,
 }
 
@@ -44,19 +43,18 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--run', '-r', action='store_true')
 args = parser.parse_args()
 
-log = logging.getLogger(__name__)
-
 # remove keys from config so that the correct environment will be created
 if args.run:
     env_conf.pop('num_envs')
     a2c_conf['clean_previous_weights'] = False
 
 e = make(**env_conf)
+
 alg = A2C(e, **a2c_conf)
 
 if args.run:
-    print('Running a2c on {}'.format(env_conf['id']))
+    print('Running a2c on {}'.format(env_conf['eid']))
     alg.run()
 else:
-    print('Learning with a2c on {}'.format(env_conf['id']))
+    print('Learning with a2c on {}'.format(env_conf['eid']))
     alg.learn()

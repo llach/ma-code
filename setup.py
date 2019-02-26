@@ -1,7 +1,7 @@
 from setuptools import setup
 from setuptools import find_packages
 
-setup(name='ma-code',
+setup(name='macode',
       version='0.0.1',
       description='code for masters thesis',
       author='Luca Lach',

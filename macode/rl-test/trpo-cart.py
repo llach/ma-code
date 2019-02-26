@@ -1,5 +1,4 @@
 import argparse
-import logging
 
 from forkan.rl import make, TRPO
 
@@ -16,7 +15,7 @@ def solved_callback(rewards):
     return True
 
 
-# algorithm parameters
+# algorithm parameters todo more params
 trpo_conf = {
     'name': 'cart-trpo',
     'total_timesteps': 1e5,
@@ -25,13 +24,13 @@ trpo_conf = {
     'use_tensorboard': True,
     'clean_tensorboard_runs': True,
     'clean_previous_weights': True,
-    'print_freq': 10,
+    'print_freq': 20,
     'solved_callback': solved_callback,
 }
 
 # environment parameters
 env_conf = {
-    'id': 'CartPole-v0',
+    'eid': 'CartPole-v0',
     'num_envs': 4,
 }
 
@@ -40,19 +39,18 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--run', '-r', action='store_true')
 args = parser.parse_args()
 
-log = logging.getLogger(__name__)
-
 # remove keys from config so that the correct environment will be created
 if args.run:
     env_conf.pop('num_envs')
     trpo_conf['clean_previous_weights'] = False
 
 e = make(**env_conf)
+
 alg = TRPO(e, **trpo_conf)
 
 if args.run:
-    log.info('Running trpo on {}'.format(env_conf['id']))
+    print('Running trpo on {}'.format(env_conf['eid']))
     alg.run()
 else:
-    log.info('Learning with trpo on {}'.format(env_conf['id']))
+    print('Learning with trpo on {}'.format(env_conf['eid']))
     alg.learn()
