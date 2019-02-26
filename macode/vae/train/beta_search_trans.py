@@ -7,12 +7,12 @@ learning_rate = 1e-2
 latents = 10
 opt = tf.train.AdagradOptimizer
 
-betas = [28.67, 40.96, 81.92] # also use crossent
-
-(data, _) = load_dsprites('translation', repetitions=10)
+betas = [28.67, 40.96, 81.92] # also use crossent, disable TB
 
 for beta in betas:
-    v = VAE(data.shape[1:], name='trans', lr=learning_rate, beta=beta, latent_dim=latents, optimizer=opt)
+    (data, _) = load_dsprites('translation', repetitions=10)
+
+    v = VAE(data.shape[1:], name='trans', network='dsprites', lr=learning_rate, beta=beta, latent_dim=latents, optimizer=opt)
     v.train(data, num_episodes=50, print_freq=-1)
 
     tf.reset_default_graph()
