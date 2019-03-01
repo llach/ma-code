@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
-import tensorflow as tf
 import numpy as np
 
 from forkan.models import VAE
 
-name = 'trans'
-v = VAE(load_from=name, network='dsprites', optimizer=tf.train.AdagradOptimizer)
+name = 'trans-b28.67-lat10-lr0.001-2019-03-01T08:56'
+v = VAE(load_from=name, network='dsprites')
 
 idx = 5
 

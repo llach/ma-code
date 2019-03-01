@@ -1,7 +1,5 @@
 import logging
 import numpy as np
-import tensorflow as tf
-
 from forkan import model_path
 from forkan.common.utils import ls_dir
 from forkan.models import VAE
@@ -16,7 +14,7 @@ filter = ''
 plt_shape = [1, 10]
 
 # whether to plot sigma-bars, kl plots and losses
-modes = [True, True, True]
+modes = [True, False, False]
 
 models_dir = '{}vae-{}/'.format(model_path, network)
 dirs = ls_dir(models_dir)
@@ -34,14 +32,13 @@ for d in dirs:
     if modes[0]:
         (data, _) = load_dsprites('translation', repetitions=10)
 
-        v = VAE(load_from=model_name, network=network, optimizer=tf.train.AdagradOptimizer)
+        v = VAE(load_from=model_name)
 
-        sigmas = np.exp(0.5 * v.encode(data[:1024])[:,1,:])
+        sigmas = np.exp(0.5 * v.encode(data[:1024])[1])
         sigmas = np.mean(sigmas, axis=0)
 
         sigma_bars(d, sigmas, plt_shape, title=model_name)
 
-        tf.reset_default_graph()
     if modes[1]:
         plot_z_kl(d, split=True)
     if modes[2]:
