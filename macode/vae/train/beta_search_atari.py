@@ -12,7 +12,7 @@ for game in games:
             data = load_atari_normalized(game)
 
             v = VAE(data.shape[1:], network='atari', name=game, beta=beta, lr=lr, latent_dim=latents)
-            v.train(data[:128], num_episodes=1)
+            v.train(data, num_episodes=100)
 
             del data
             del v
