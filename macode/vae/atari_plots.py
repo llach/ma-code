@@ -1,13 +1,12 @@
 import logging
 import numpy as np
-import tensorflow as tf
 
 from forkan import model_path
 from forkan.common.utils import ls_dir
 from forkan.models import VAE
 from forkan.datasets import load_atari_normalized
 
-from macode.vae.plot_helper import sigma_bars, plot_z_kl, plot_losses
+from macode.vae.plot_helper import bars, plot_z_kl, plot_losses
 
 logger = logging.getLogger(__name__)
 
@@ -40,11 +39,12 @@ for d in dirs:
 
         v = VAE(load_from=model_name, network=network)
 
-        sigmas = np.exp(0.5 * v.encode(datasets[ds_name][:1024])[1])
-        sigmas = np.mean(sigmas, axis=0)
+        mus, logvars = v.encode(datasets[ds_name][:1024])[:2]
+        sigmas = np.mean(np.exp(0.5 * logvars), axis=0)
+        mus = np.mean(mus, axis=0)
 
-        sigma_bars(d, sigmas, plt_shape, title=model_name)
-
+        bars(d, sigmas, plt_shape, type='sigma', title=model_name)
+        bars(d, mus, plt_shape, type='mu', title=model_name)
     elif modes[1]:
         plot_z_kl(d, split=True)
     elif modes[2]:

@@ -5,7 +5,7 @@ from forkan.common.utils import ls_dir
 from forkan.models import VAE
 from forkan.datasets.dsprites import load_dsprites
 
-from macode.vae.plot_helper import sigma_bars, plot_z_kl, plot_losses
+from macode.vae.plot_helper import bars, plot_losses
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +14,7 @@ filter = ''
 plt_shape = [1, 10]
 
 # whether to plot sigma-bars, kl plots and losses
-modes = [True, False, False]
+modes = [True, False]
 
 models_dir = '{}vae-{}/'.format(model_path, network)
 dirs = ls_dir(models_dir)
@@ -34,14 +34,12 @@ for d in dirs:
 
         v = VAE(load_from=model_name)
 
-        sigmas = np.exp(0.5 * v.encode(data[:1024])[1])
-        sigmas = np.mean(sigmas, axis=0)
+        mus, logvars = v.encode(data[:1024])[:2]
+        sigmas = np.mean(np.exp(0.5 * logvars), axis=0)
 
-        sigma_bars(d, sigmas, plt_shape, title=model_name)
-
+        bars(d, sigmas, plt_shape, type='sigma', title=model_name)
+        bars(d, mus, plt_shape, type='mu', title=model_name)
     if modes[1]:
-        plot_z_kl(d, split=True)
-    if modes[2]:
         plot_losses(d)
 
 logger.info('Done.')

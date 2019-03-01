@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 
 
-def sigma_bars(d, mean_sigma, plot_shape, thresh=0.8, title=None):
+def bars(d, mean_sigma, plot_shape, type='sigma', thresh=0.8, title=None):
     num_zi = plot_shape[1]
     num_plots = plot_shape[0]
 
@@ -21,7 +21,7 @@ def sigma_bars(d, mean_sigma, plot_shape, thresh=0.8, title=None):
 
     # create subplots
     f, axes = plt.subplots(num_plots, 1, figsize=(9, (6.5 * num_plots)))
-    t = 'z-i sigmas'
+    t = 'z-i {}'.format(type)
     if title is not None:
         t += ' - {}'.format(title)
     plt.title(t)
@@ -33,7 +33,7 @@ def sigma_bars(d, mean_sigma, plot_shape, thresh=0.8, title=None):
         for r, ax in enumerate(axes):
             sns.barplot(x=xs[r], y=ys[r], ax=ax, palette=pal[r], linewidth=0.5)
 
-    plt.savefig('{}/sigmas.png'.format(d))
+    plt.savefig('{}/{}.png'.format(d, type))
     plt.show()
 
 
