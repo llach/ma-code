@@ -3,16 +3,18 @@ import tensorflow as tf
 from forkan.models import VAE
 from forkan.datasets import load_atari_normalized
 
+lrs = [1e-2, 1e-3, 1e-4]
 latents = 20
-betas = [0.5, 1.0, 2.0, 5.0, 10.0, 22.5, 50.6]
+betas = [0.5, 1.0, 2.0, 3.5, 5.0, 6.0]
 game = 'boxing'
 
 # paper used adam
-for beta in betas:
-    data = load_atari_normalized(game)
+for lr in lrs:
+    for beta in betas:
+        data = load_atari_normalized(game)
 
-    v = VAE(data.shape[1:], network='atari', name=game, beta=beta, latent_dim=latents)
-    v.train(data, num_episodes=100)
+        v = VAE(data.shape[1:], network='atari', name=game, beta=beta, lr=lr, latent_dim=latents)
+        v.train(data, num_episodes=100)
 
-    del data
-    del v
+        del data
+        del v

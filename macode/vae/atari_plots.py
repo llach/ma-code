@@ -16,7 +16,7 @@ filter = 'boxing'
 plt_shape = [2, 10]
 
 # whether to plot sigma-bars, kl plots and losses
-modes = [True, True, True]
+modes = [True, False, False]
 
 datasets = {}
 
@@ -38,14 +38,13 @@ for d in dirs:
             logger.info('loading {}'.format(ds_name))
             datasets.update({ds_name: load_atari_normalized(ds_name)})
 
-        v = VAE(load_from=model_name)
+        v = VAE(load_from=model_name, network=network)
 
-        sigmas = np.exp(0.5 * v.encode(datasets[ds_name][:1024])[:,1,:])
+        sigmas = np.exp(0.5 * v.encode(datasets[ds_name][:1024])[1])
         sigmas = np.mean(sigmas, axis=0)
 
         sigma_bars(d, sigmas, plt_shape, title=model_name)
 
-        tf.reset_default_graph()
     elif modes[1]:
         plot_z_kl(d, split=True)
     elif modes[2]:
