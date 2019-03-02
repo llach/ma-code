@@ -1,8 +1,10 @@
 from forkan.models import VAE
 from forkan.datasets.dsprites import load_dsprites
 
+from keras.optimizers import Adam
+
 latents = 10
-opt = 'adam'
+opt = Adam
 
 betas = [28.67, 40.96, 81.92]
 

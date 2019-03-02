@@ -11,7 +11,7 @@ from macode.vae.plot_helper import bars, plot_z_kl, plot_losses
 logger = logging.getLogger(__name__)
 
 network = 'atari'
-filter = 'boxing'
+filter = 'upndown'
 plt_shape = [2, 10]
 
 # whether to plot sigma-bars, kl plots and losses
@@ -44,7 +44,6 @@ for d in dirs:
         mus = np.mean(mus, axis=0)
 
         bars(d, sigmas, plt_shape, type='sigma', title=model_name)
-        bars(d, mus, plt_shape, type='mu', title=model_name)
     elif modes[1]:
         plot_z_kl(d, split=True)
     elif modes[2]:
