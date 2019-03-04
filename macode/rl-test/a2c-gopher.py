@@ -5,8 +5,7 @@ args = [
     '--env', 'GopherNoFrameskip-v4',
     '--alg', 'a2c',
     '--num_env', '16',
-    '--network', 'mlp',
-    '--vae', 'gopher',
+    '--network', 'cnn',
 ]
 
 main(args)
