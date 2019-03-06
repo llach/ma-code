@@ -10,8 +10,8 @@ for lr in lrs:
         print('loading data ...')
         data = load_pendulum()
         print('starting training!')
-        v = VAE(data.shape[1:], network='pendulum', name='', beta=beta, lr=lr, latent_dim=latents)
-        v.train(data, num_episodes=50)
+        v = VAE(data.shape[1:], network='pendulum', name='pend', beta=beta, lr=lr, latent_dim=latents)
+        v.train(data, num_episodes=100)
 
         del data
         del v
