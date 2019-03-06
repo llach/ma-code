@@ -8,7 +8,7 @@ from skimage.transform import resize
 from forkan import dataset_path
 from forkan.common.utils import create_dir
 
-FRAMES = 100000
+FRAMES = 30000
 
 env = make('Pendulum-v0')
 o = env.reset()
@@ -26,7 +26,7 @@ def transform_pendulum_obs(obs):
     return np.expand_dims(obs, -1)
 
 
-frames = np.zeros([FRAMES, 64, 64])
+frames = np.zeros([FRAMES, 64, 64, 1])
 
 for i in range(FRAMES):
     action = env.action_space.sample()
