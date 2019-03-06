@@ -3,6 +3,7 @@ import numpy as np
 from gym import make
 
 import scipy.misc
+from skimage.transform import resize
 
 from forkan import dataset_path
 from forkan.common.utils import create_dir
@@ -21,10 +22,11 @@ def transform_pendulum_obs(obs):
     obs = obs / 255 # normalise
     obs = obs[121:256 + 121, 121:256 + 121, :] # cut out interesting area
     obs = np.dot(obs[..., :3], [0.299, 0.587, 0.114]) # inverted greyscale
-    return obs
+    obs = resize(obs, (64, 64))
+    return np.expand_dims(obs, -1)
 
 
-frames = np.zeros([FRAMES, 256, 256])
+frames = np.zeros([FRAMES, 64, 64])
 
 for i in range(FRAMES):
     action = env.action_space.sample()
