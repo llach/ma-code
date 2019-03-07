@@ -4,11 +4,11 @@ import numpy as np
 from forkan.models import VAE
 
 
-name = 'upndown-b3.5-lat20-lr0.001-2019-03-02T03:06'
-v = VAE(load_from=name, network='atari')
+name = 'pend-b25-lat5-lr0.001-2019-03-06T21:19'
+v = VAE(load_from=name, network='pendulum')
 shape = v.input_shape[:2]
 
-idx = 5
+idx = 4
 
 np.random.seed(1)
 
