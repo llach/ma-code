@@ -5,9 +5,9 @@ args = [
     '--env', 'Pendulum-v0',
     '--alg', 'a2c',
     '--network', 'mlp',
-    '--num_env', '1',
+    '--num_env', '16',
     '--vae', 'pend',
-    # '--load_path', '/Users/llach/.forkan/models/a2c/pendulum-noVAE-nenv16-2019-03-07T21:56/weights_latest',
+    # '--load_path', '/Users/llach/.forkan/models/a2c/pendulum-noVAE-nenv16-2019-03-07T22:11/weights_latest',
     # '--play'
 ]
 

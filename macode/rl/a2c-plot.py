@@ -27,7 +27,6 @@ for d in dirs:
 
     log.info('plotting {}'.format(model_name))
 
-
     rew, entr, ev, vall = [], [], [], []
     rewi = entri = evi = valli = None
 
