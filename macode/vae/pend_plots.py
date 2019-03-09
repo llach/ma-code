@@ -10,7 +10,7 @@ from macode.vae.plot_helper import bars, plot_losses
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
-filter = ''
+filter = 'optimal'
 plt_shape = [1, 5]
 
 # whether to plot sigma-bars, kl plots and losses
