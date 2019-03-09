@@ -1,11 +1,11 @@
 from baselines.run import main
 
 args = [
-    '--num_timesteps', '5e6',
-    '--env', 'Pendulum-v0',
+    '--num_timesteps', '15e6',
+    '--env', 'PendulumTheta-v0',
     '--alg', 'a2c',
     '--network', 'mlp',
-    '--num_env', '16',
+    '--num_env', '24',
 ]
 
 main(args)
