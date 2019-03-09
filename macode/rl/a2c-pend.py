@@ -1,7 +1,7 @@
 from baselines.run import main
 
 args = [
-    '--num_timesteps', '15e6',
+    '--num_timesteps', '10e6',
     '--env', 'PendulumTheta-v0',
     '--alg', 'a2c',
     '--network', 'mlp',
