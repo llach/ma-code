@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 models_dir = '{}a2c/'.format(model_path)
 dirs = ls_dir(models_dir)
 
-filter = 'pendulum'
+filter = 'pendulumtheta'
 
 for d in dirs:
     ds_name = d.split('/')[-1].split('-')[0]
