@@ -23,10 +23,7 @@ args = [
     '--env', 'PendulumVAEStack-v0',
     '--alg', 'a2c',
     '--network', 'mlp',
-    '--num_env', '2',
-    # '--vae', 'pend-optimal',
-    # '--load_path', '/Users/llach/.forkan/models/a2c/pendulum-noVAE-nenv16-2019-03-07T22:11/weights_latest',
-    # '--play'
+    '--num_env', '24',
 ]
 
 main(args, build_fn=build_pend_env)
