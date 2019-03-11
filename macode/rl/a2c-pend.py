@@ -5,7 +5,7 @@ args = [
     '--env', 'PendulumThetaStack-v0',
     '--alg', 'a2c',
     '--network', 'mlp',
-    '--num_env', '24',
+    '--num_env', '2',
 ]
 
 main(args)

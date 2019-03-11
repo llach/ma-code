@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 models_dir = '{}a2c/'.format(model_path)
 dirs = ls_dir(models_dir)
 
-filter = 'pendulum-noVAE-nenv24-2019-03-10T17:27'
+filter = 'pendulumthetastack-noVAE-nenv24-2019-03-11T12:55'
 # filter = ''
 for d in dirs:
     ds_name = d.split('/')[-1].split('-')[0]
