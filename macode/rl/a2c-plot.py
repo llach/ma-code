@@ -14,8 +14,8 @@ log = logging.getLogger(__name__)
 models_dir = '{}a2c/'.format(model_path)
 dirs = ls_dir(models_dir)
 
-filter = 'pendulum-noVAE-nenv24-2019-03-09T17:04'
-
+filter = 'pendulum-noVAE-nenv24-2019-03-10T17:27'
+# filter = ''
 for d in dirs:
     ds_name = d.split('/')[-1].split('-')[0]
     model_name = d.split('/')[-1]
@@ -57,7 +57,7 @@ for d in dirs:
                 line_count += 1
 
     if rew == []:
-        log.info('{} hod no progress, skipping'.format(model_name))
+        log.info('{} had no progress, skipping'.format(model_name))
         continue
 
     plt.figure(figsize=(10, 10))
