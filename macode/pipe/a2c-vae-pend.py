@@ -10,7 +10,7 @@ def build_pend_env(args, **kwargs):
 
     def wrap_fn(env):
         env = PendulumRenderEnv(env)
-        env = PendulumVAEStackEnv(env, k=4)
+        env = PendulumVAEStackEnv(env, k=20)
         return env
 
     flatten_dict_observations = alg not in {'her'}
@@ -23,7 +23,7 @@ args = [
     '--env', 'PendulumVAEStack-v0',
     '--alg', 'a2c',
     '--network', 'mlp',
-    '--num_env', '24',
+    '--num_env', '6',
 ]
 
 main(args, build_fn=build_pend_env)
