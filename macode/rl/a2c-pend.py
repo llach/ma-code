@@ -4,7 +4,7 @@ from baselines.common.tf_util import get_session
 import tensorflow as tf
 
 
-for zahl in ['3', '4', '5', '16', '24']:
+for zahl in ['6', '7', '8', '10', '12']:
     args = [
         '--num_timesteps', '10e6',
         '--env', 'PendulumThetaStack-v0',
