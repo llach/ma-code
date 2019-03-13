@@ -4,12 +4,13 @@ from baselines.common.tf_util import get_session
 import tensorflow as tf
 
 
-for zahl in ['6', '7', '8', '10', '12']:
+for n, zahl in enumerate(['10']*4):
     args = [
         '--num_timesteps', '10e6',
         '--env', 'PendulumThetaStack-v0',
         '--alg', 'a2c',
         '--network', 'mlp',
+        '--seed', str(n),
         '--num_env', zahl,
     ]
     main(args)
