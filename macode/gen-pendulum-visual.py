@@ -27,7 +27,7 @@ for i in range(FRAMES):
     nseconds = time.time() - tstart
     fps = int((i+1) / nseconds)
 
-    frames[i] = o.reshape([64, 64, 1])
+    frames[i] = o
 
     if done:
         o = env.reset()
