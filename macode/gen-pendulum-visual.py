@@ -39,8 +39,7 @@ print('dumping file')
 np.savez_compressed('{}/pendulum-visual-random-normalized-cut.npz'.format(dataset_path), data=frames)
 
 print('storing some pngs')
-create_dir('{}/pendulum/'.format(dataset_path))
+create_dir('{}/pendulum-visual/'.format(dataset_path))
 for n, f in enumerate(frames[40:60, ...]):
-    print(f)
     scipy.misc.imsave('{}/pendulum-visual/frame{}.png'.format(dataset_path, n), np.squeeze(f))
 print('done')
