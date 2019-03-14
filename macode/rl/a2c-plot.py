@@ -11,11 +11,10 @@ import seaborn as sns; sns.set()
 
 log = logging.getLogger(__name__)
 
-models_dir = '{}a2c/'.format(model_path)
+models_dir = '{}a2c-TEST/'.format(model_path)
 dirs = ls_dir(models_dir)
 
-filter = 'pendulumthetastack-noVAE-nenv2-2019-03-11T13:30'
-# filter = ''
+filter = '03-13T'
 for d in dirs:
     ds_name = d.split('/')[-1].split('-')[0]
     model_name = d.split('/')[-1]
