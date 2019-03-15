@@ -1,9 +1,11 @@
+import numpy as np
+
 from forkan.models import VAE
 from forkan.datasets import load_uniform_pendulum
 
 latents = 5
 lr = 1e-3
-betas = [20.0, 22.0, 25.0, 27.5, 30.0, 40.0, 50.0, 60.0]
+betas = np.linspace(10, 20, 13)
 
 for beta in betas:
     print('loading data ...')
