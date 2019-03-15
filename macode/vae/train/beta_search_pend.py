@@ -1,15 +1,15 @@
 from forkan.models import VAE
-from forkan.datasets import load_pendulum
+from forkan.datasets import load_uniform_pendulum
 
 latents = 5
 lr = 1e-3
-betas = [12.0, 20.0, 25.0, 27.5, 30.0, 40.0]
+betas = [20.0, 22.0, 25.0, 27.5, 30.0, 40.0, 50.0, 60.0]
 
 for beta in betas:
     print('loading data ...')
-    data = load_pendulum()
+    data = load_uniform_pendulum()
     print('starting training!')
-    v = VAE(data.shape[1:], network='pendulum', name='pendvisual', beta=beta, lr=lr, latent_dim=latents)
+    v = VAE(data.shape[1:], network='pendulum', name='pendvisualuniform', beta=beta, lr=lr, latent_dim=latents)
     v.train(data, num_episodes=100)
 
     del data
