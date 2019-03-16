@@ -15,6 +15,7 @@ def build_pend_env(args, **kwargs):
 
 for nenv in [16, 12, 24, 8]:
     args = [
+        '--env', 'PendulumVisual-v0',
         '--num_timesteps', '20e6',
         '--alg', 'a2c',
         '--network', 'mlp',
