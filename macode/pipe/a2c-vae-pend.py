@@ -1,3 +1,6 @@
+from keras.backend import clear_session
+from baselines.common.tf_util import get_session
+import tensorflow as tf
 from baselines.run import main
 from baselines.common.cmd_util import make_vec_env
 from forkan.rl import VecVAEStack
@@ -20,7 +23,12 @@ for nenv in [16, 12, 24, 8]:
         '--alg', 'a2c',
         '--network', 'mlp',
         '--num_env', str(nenv),
+        '--seed', '1',
     ]
 
     main(args, build_fn=build_pend_env)
+    s = get_session()
+    s.close()
+    clear_session()
+    tf.reset_default_graph()
     pass
