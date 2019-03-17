@@ -14,7 +14,7 @@ def build_pend_env(args, **kwargs):
     flatten_dict_observations = alg not in {'her'}
     env = make_vec_env('PendulumVisual-v0', 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
                              flatten_dict_observations=flatten_dict_observations)
-    return VecVAEStack(env, k=5, load_from=vae_name)
+    return VecVAEStack(env, k=3, load_from=vae_name)
 
 for nenv in [16, 12, 24, 8]:
     args = [
@@ -22,6 +22,7 @@ for nenv in [16, 12, 24, 8]:
         '--num_timesteps', '20e6',
         '--alg', 'a2c',
         '--network', 'mlp',
+        '--num_hidden', '256',
         '--num_env', str(nenv),
         '--seed', '1',
     ]
