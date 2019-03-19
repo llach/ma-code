@@ -1,14 +1,16 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from scipy.stats import norm
+
 from forkan.models import VAE
 
 
-name = 'pend'
+name = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-16T10:28'.replace('/', ':')
 v = VAE(load_from=name, network='pendulum')
 shape = v.input_shape[:2]
 
-idx = 2
+idx = 1
 
 np.random.seed(1)
 
@@ -23,6 +25,5 @@ for i, r in enumerate(np.linspace(-3, 3, 10)):
     plt.title('z_{}'.format(idx))
     plt.pause(0.1)
     plt.clf()
-    i += 1
 
 plt.show()

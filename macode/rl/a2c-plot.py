@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 models_dir = '{}a2c-TEST/'.format(model_path)
 dirs = ls_dir(models_dir)
 
-filter = '03-13T'
+filter = 'b1.0'
 for d in dirs:
     ds_name = d.split('/')[-1].split('-')[0]
     model_name = d.split('/')[-1]

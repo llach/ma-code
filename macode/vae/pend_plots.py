@@ -1,16 +1,21 @@
+import csv
 import logging
 import numpy as np
 from forkan import model_path
 from forkan.common.utils import ls_dir
 from forkan.models import VAE
-from forkan.datasets import load_pendulum
+from forkan.datasets import load_uniform_pendulum
+
+import matplotlib.pyplot as plt
+import seaborn as sns; sns.set()
 
 from macode.vae.plot_helper import bars, plot_losses
 
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
-filter = 'optimal'
+filter = 'pendvisualuniform-b50-lat5-lr0.001-WU20-2019-03-19T09:54'.replace('/', ':')
+# filter = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56'.replace('/', ':')
 plt_shape = [1, 5]
 
 # whether to plot sigma-bars, kl plots and losses
@@ -28,17 +33,61 @@ for d in dirs:
             logger.info('skipping {}'.format(model_name))
             continue
 
-    # sigma bars
-    if modes[0]:
-        data = load_pendulum()
+    kls, recs = [], []
+    kli = reci = None
 
-        v = VAE(load_from=model_name, network=network)
+    with open('{}/progress.csv'.format(d)) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count == 0:
+                for n, ele in enumerate(row):
+                    if 'rec-loss' in ele:
+                        reci = n
+                    elif 'kl-loss' in ele:
+                        kli = n
+                line_count += 1
+            else:
+                kls.append(row[kli])
+                recs.append(row[reci])
 
-        mus, logvars = v.encode(data[:1024])[:2]
-        sigmas = np.mean(np.exp(0.5 * logvars), axis=0)
+                line_count += 1
 
-        bars(d, sigmas, plt_shape, type='sigma', title=model_name)
-    if modes[1]:
-        plot_losses(d)
+    if kls == []:
+        print('{} had no progress, skipping'.format(model_name))
+        continue
 
+    kls = kls[1:]
+    recs = recs[1:]
+
+    plt.figure(figsize=(10, 10))
+    plt.subplot(221)
+
+    data = load_uniform_pendulum()
+
+    v = VAE(load_from=model_name, network=network)
+
+    mus, logvars = v.encode(data[:4000])[:2]
+    sigmas = np.mean(np.exp(0.5 * logvars), axis=0)
+
+    bars(d, sigmas, plt_shape, type='sigma', title=model_name)
+    plt.legend()
+
+    plt.subplot(222)
+    plt.plot(np.asarray(kls, dtype=np.float32)+np.asarray(recs, dtype=np.float32), label='joint-loss')
+    plt.legend()
+
+    plt.subplot(223)
+    plt.plot(np.asarray(kls, dtype=np.float32), label='kl-loss')
+    plt.legend()
+
+    plt.subplot(224)
+    plt.plot(np.asarray(recs, dtype=np.float32), label='rec-loss')
+    plt.legend()
+
+    plt.show()
+
+    # if modes[1]:
+    #     plot_losses(d)
+    # plt.savefig('{}/{}.png'.format(d, type))
 logger.info('Done.')

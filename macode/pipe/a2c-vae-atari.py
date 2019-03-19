@@ -11,7 +11,7 @@ def build_pend_env(args, **kwargs):
     flatten_dict_observations = alg not in {'her'}
     env = make_vec_env(args.env, 'atari', args.num_env or 1, seed, reward_scale=args.reward_scale,
                              flatten_dict_observations=flatten_dict_observations)
-    return VecVAEStack(env, k=4, load_from=vae_name)
+    return VecVAEStack(env, k=3, load_from=vae_name)
 
 
 args = [

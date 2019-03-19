@@ -20,7 +20,6 @@ def bars(d, mean_sigma, plot_shape, type='sigma', thresh=0.8, title=None):
         pal.append(['#90D7F3' if k > thresh else '#F78A8F' for k in ys[-1]])
 
     # create subplots
-    f, axes = plt.subplots(num_plots, 1, figsize=(9, (6.5 * num_plots)))
     t = 'z-i {}'.format(type)
     if title is not None:
         t += ' - {}'.format(title)
@@ -28,13 +27,12 @@ def bars(d, mean_sigma, plot_shape, type='sigma', thresh=0.8, title=None):
 
     # show them heatmaps
     if num_plots == 1:
-        sns.barplot(x=xs[0], y=ys[0], ax=axes, palette=pal[0], linewidth=0.5)
+        sns.barplot(x=xs[0], y=ys[0], palette=pal[0], linewidth=0.5, label='mean-sigmas')
+        plt.ylim(0, 1.05)
     else:
-        for r, ax in enumerate(axes):
-            sns.barplot(x=xs[r], y=ys[r], ax=ax, palette=pal[r], linewidth=0.5)
-
-    plt.savefig('{}/{}.png'.format(d, type))
-    plt.show()
+        print('multiple not suppported rn')
+        # for r, ax in enumerate(axes):
+        #     sns.barplot(x=xs[r], y=ys[r], ax=ax, palette=pal[r], linewidth=0.5, label='mean-sigmas')
 
 
 def plot_z_kl(d, split=True):
