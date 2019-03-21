@@ -1,7 +1,10 @@
 import numpy as np
 import cairocffi as cairo
 from forkan.models import VAE
-from scipy.stats import pearsonr as metric
+from scipy.stats import kendalltau as metric
+
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 FRAMES = 20
 
@@ -48,70 +51,69 @@ for i, theta in enumerate(np.linspace(0, 2*np.pi, FRAMES)):
     thetas.append(theta)
 
 
-v = VAE(load_from='pendvisualuniform-b17.5-lat5-lr0.001-2019-03-15T13/42'.replace('/', ':'), network='pendulum')
+v = VAE(load_from='pendvisualuniform-b72.5-lat5-lr0.001-2019-03-20T23/58'.replace('/', ':'), network='pendulum')
 nlat = v.latent_dim
-
 thetas = np.asarray(thetas, dtype=np.float)
 
+idx = 0
+show_recs = False
+
 mus, logvars, zs = v.encode(frames)
-zs = zs.reshape(nlat, FRAMES)
-mus = mus.reshape(nlat, FRAMES)
-sigmas = np.mean(np.exp(0.5 * logvars), axis=0)
+print(zs.shape)
+recons = v.full_decode(zs, frames)
+print(recons.shape, frames.shape)
+
+zs = np.moveaxis(zs, 0, -1)
+mus = np.moveaxis(mus, 0, -1)
+sigmas = np.moveaxis(np.exp(0.5 * logvars), 0, -1)
+sigmasmean = np.mean(sigmas, axis=1)
+
 print(zs.shape, thetas.shape)
 
-import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()
+if show_recs:
+    for i in range(FRAMES):
 
-# plt.plot(zs[0], label='z0')
-# plt.plot(zs[1], label='z1')
-# plt.plot(zs[2], label='z2')
-# plt.plot(zs[3], label='z3')
-# plt.legend()
-# plt.show()
+        fig, axarr = plt.subplots(1, 2)
+        fig.suptitle("Original vs. Reconstruction", fontsize=16)
 
-plt.plot(thetas, zs[1], label='zs')
-plt.plot(thetas, np.cos(thetas), label='sin(th)')
+        axarr[0].imshow(np.squeeze(frames[i,...]), cmap='Greys_r')
+        axarr[0].set_title('input theta = {}'.format(thetas[i]))
+        axarr[1].imshow(np.squeeze(recons[i,...]), cmap='Greys_r')
+        axarr[1].set_title('x_hat mu = {}'.format(mus[idx][i]))
+
+        # # Fine-tune figure; hide x ticks for top plots and y ticks for right plots
+        plt.setp(axarr[1].get_yticklabels(), visible=False)
+
+        # Tight layout often produces nice results
+        # but requires the title to be spaced accordingly
+        fig.tight_layout()
+        fig.subplots_adjust(top=0.88)
+
+        plt.show()
+
+sns.set()
+plt.plot(thetas, mus[idx], label='mus')
+plt.plot(thetas, np.sin(thetas), label='sin(th)')
 plt.legend()
 plt.show()
 
-# print(metric(zs[0], zs[4]))
+plt.plot(thetas, mus[idx], label='mus')
+plt.plot(thetas, np.cos(thetas), label='cos(th)')
+plt.legend()
+plt.show()
 
-# sns.distplot(thetas, label='thetas')
-# plt.legend()
-# plt.show()
-#
-# sns.distplot(np.sin(thetas), label='thetas-sin')
-# plt.legend()
-# plt.show()
-#
-# plt.scatter(thetas, zs[2], label='z')
-# plt.legend()
-# plt.show()
-#
-# sns.distplot(np.sin(zs[2]), label='zs-sin')
-# plt.legend()
-# plt.show()
+plt.scatter(thetas, sigmas[idx], label='sigmas')
+plt.legend()
+plt.show()
 
-# plt.scatter(thetas, zs[2], label='th')
-# plt.legend()
-# plt.show()
-# plt.scatter(np.sin(thetas), zs[2], label='thsin')
-# plt.legend()
-# plt.show()
-# plt.scatter(np.cos(thetas), zs[2], label='thcos')
-# plt.legend()
-# plt.show()
+print('###### THETA ######')
+for i in range(nlat):
+    print(i, metric(thetas, mus[i]), sigmasmean[i])
 
-from scipy.stats import norm
-#
-# print('###### THETA ######')
-# for i in range(nlat):
-#     print(i, metric(thetas, zs[i]), sigmas[i])
-#
-# print('###### sin(THETA) ######')
-# for i in range(nlat):
-#     print(i, metric(np.sin(thetas), zs[i]), sigmas[i])
-#
-# print('###### cos(THETA) ######')
-# for i in range(nlat):
-#     print(i, metric(np.cos(thetas), zs[i]), sigmas[i])
+print('###### SIN(THETA) ######')
+for i in range(nlat):
+    print(i, metric(np.sin(thetas), mus[i]), sigmasmean[i])
+
+print('###### COS(THETA) ######')
+for i in range(nlat):
+    print(i, metric(np.cos(thetas), mus[i]), sigmasmean[i])

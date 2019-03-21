@@ -14,12 +14,10 @@ from macode.vae.plot_helper import bars, plot_losses
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
-filter = 'pendvisualuniform-b50-lat5-lr0.001-WU20-2019-03-19T09:54'.replace('/', ':')
-# filter = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56'.replace('/', ':')
+# filter = 'pendvisualuniform-b50-lat5-lr0.001-WU20-2019-03-19T09:54'.replace('/', ':')
+filter = 'pendvisualuniform'.replace('/', ':')
 plt_shape = [1, 5]
 
-# whether to plot sigma-bars, kl plots and losses
-modes = [True, False]
 
 models_dir = '{}vae-{}/'.format(model_path, network)
 dirs = ls_dir(models_dir)
@@ -85,6 +83,7 @@ for d in dirs:
     plt.plot(np.asarray(recs, dtype=np.float32), label='rec-loss')
     plt.legend()
 
+    plt.savefig('{}/results.png'.format(d))
     plt.show()
 
     # if modes[1]:
