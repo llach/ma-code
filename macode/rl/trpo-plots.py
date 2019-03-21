@@ -8,7 +8,6 @@ from forkan.common.utils import ls_dir
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 
-
 log = logging.getLogger(__name__)
 
 models_dir = '{}trpo/'.format(model_path)
@@ -26,8 +25,8 @@ for d in dirs:
 
     log.info('plotting {}'.format(model_name))
 
-    rew, entr, ev, vall = [], [], [], []
-    rewi = entri = evi = valli = None
+    steps, rew, entr, ev, vall = [], [], [], [], []
+    stepi = rewi = entri = evi = valli = None
 
     with open('{}/progress.csv'.format(d)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -39,6 +38,8 @@ for d in dirs:
                         rewi = n
                     elif 'entropy' in ele:
                         entri = n
+                    elif 'timesteps' in ele:
+                        stepi = n
                     elif ele == 'explained_variance':
                         evi = n
                     elif ele == 'value_loss':
@@ -52,6 +53,7 @@ for d in dirs:
                     entr.append(row[entri])
                     ev.append(row[evi])
                     vall.append(row[valli])
+                    steps.append(row[stepi])
 
                 line_count += 1
 
@@ -59,28 +61,40 @@ for d in dirs:
         log.info('{} had no progress, skipping'.format(model_name))
         continue
 
-    plt.figure(figsize=(10, 10))
+    steps = np.asarray(steps, dtype=np.float32)
+
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    fig.suptitle('{}'.format(model_name), fontsize=14)
 
     print('plotting losses for {} ...'.format(model_name))
-    plt.subplot(221)
-    plt.plot(np.asarray(rew, dtype=np.float32), label='mean reward')
-    plt.legend()
+    axes[0, 0].axvline(1e6, linestyle='--', color='c')
+    axes[0, 0].axvline(2e6, linestyle='--', color='c')
+    axes[0, 0].plot(steps, np.asarray(rew, dtype=np.float32), label='mean reward')
+    # axes[0, 0].legend()
+    axes[0, 0].set_title('reward')
 
-    plt.subplot(222)
-    plt.plot(np.asarray(entr, dtype=np.float32), label='policy entropy')
-    plt.legend()
+    axes[0, 1].axvline(1e6, linestyle='--', color='c')
+    axes[0, 1].axvline(2e6, linestyle='--', color='c')
+    axes[0, 1].plot(steps, np.asarray(entr, dtype=np.float32), label='policy entropy')
+    # axes[0, 1].legend()
+    axes[0, 1].set_title('policy entropy')
 
-    plt.subplot(223)
-    plt.plot(np.asarray(ev, dtype=np.float32), label='explained variance')
-    plt.legend()
+    axes[1, 0].axvline(1e6, linestyle='--', color='c')
+    axes[1, 0].axvline(2e6, linestyle='--', color='c')
+    axes[1, 0].plot(steps, np.asarray(ev, dtype=np.float32), label='explained variance')
+    axes[1, 0].set_title('explained variance')
 
-    plt.subplot(224)
-    plt.plot(np.asarray(vall, dtype=np.float32), label='value loss')
-    plt.legend()
+    axes[1, 1].axvline(1e6, linestyle='--', color='c')
+    axes[1, 1].axvline(2e6, linestyle='--', color='c')
+    axes[1, 1].plot(steps, np.asarray(vall, dtype=np.float32), label='value loss')
+    axes[1, 1].set_title('value loss')
 
-    plt.title(model_name)
+    # plt.setp([p.get_xticklabels() for p in axes[0,...]], visible=False)
 
-    plt.savefig('{}/plot.png'.format(d))
+    fig.tight_layout()
+    fig.subplots_adjust(hspace=0.88)
+
+    # plt.savefig('{}/plot.png'.format(d))
     plt.show()
 
 log.info('Done.')
