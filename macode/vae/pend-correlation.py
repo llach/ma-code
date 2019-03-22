@@ -6,7 +6,7 @@ from scipy.stats import kendalltau as metric
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-FRAMES = 20
+FRAMES = 200
 
 thetas = []
 frames = np.zeros([FRAMES, 64, 64, 1])
@@ -45,17 +45,21 @@ def _render_pendulum(th):
                                  [0.299, 0.587, 0.114]), -1) / 255
 
 
-for i, theta in enumerate(np.linspace(0, 2*np.pi, FRAMES)):
+for i, theta in enumerate(np.linspace(0, 4*np.pi, FRAMES)):
     frame = _render_pendulum(theta)
     frames[i] = frame
     thetas.append(theta)
 
 
-v = VAE(load_from='pendvisualuniform-b72.5-lat5-lr0.001-2019-03-20T23/58'.replace('/', ':'), network='pendulum')
+# b22
+# np.sin(2*(thetas + np.pi/4))
+# -np.cos(thetas + np.pi/4)
+
+v = VAE(load_from='pendvisualuniform-b22-lat5-lr0.001-2019-03-18T20/23'.replace('/', ':'), network='pendulum')
 nlat = v.latent_dim
 thetas = np.asarray(thetas, dtype=np.float)
 
-idx = 0
+idx = 3
 show_recs = False
 
 mus, logvars, zs = v.encode(frames)
