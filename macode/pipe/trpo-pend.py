@@ -13,7 +13,7 @@ def build_pend_env(args, **kwargs):
 
 args = [
     '--num_timesteps', '5e6',
-    '--env', 'PendulumTheta-v0',
+    '--env', 'PendulumVisual-v0',
     '--alg', 'trpo_mpi',
     '--network', 'mlp',
 ]
