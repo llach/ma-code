@@ -2,7 +2,7 @@ from baselines.run import main
 from baselines.common.cmd_util import make_env
 from forkan.rl import VAEStack
 
-vae_name = 'pendvisualuniform-b72.5-lat5-lr0.001-2019-03-20T23/58'.replace('/', ':')
+vae_name = 'pendvisualuniform-b75.0-lat5-lr0.001-2019-03-21T00/05'.replace('/', ':')
 
 def build_pend_env(args, **kwargs):
     seed = args.seed
