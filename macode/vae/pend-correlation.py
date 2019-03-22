@@ -55,11 +55,16 @@ for i, theta in enumerate(np.linspace(0, 4*np.pi, FRAMES)):
 # np.sin(2*(thetas + np.pi/4))
 # -np.cos(thetas + np.pi/4)
 
-v = VAE(load_from='pendvisualuniform-b22-lat5-lr0.001-2019-03-18T20/23'.replace('/', ':'), network='pendulum')
+load_from = 'pendvisualuniform-b20-lat5-lr0.001-2019-03-18T20/16'.replace('/', ':')
+idxes = [0, 1]
+# load_from = 'pendvisualuniform-b22-lat5-lr0.001-2019-03-18T20/23'.replace('/', ':')
+# idxes = [2, 3]
+
+v = VAE(load_from=load_from, network='pendulum')
 nlat = v.latent_dim
 thetas = np.asarray(thetas, dtype=np.float)
 
-idx = 3
+idx = 1
 show_recs = False
 
 mus, logvars, zs = v.encode(frames)
@@ -96,19 +101,21 @@ if show_recs:
         plt.show()
 
 sns.set()
-plt.plot(thetas, mus[idx], label='mus')
-plt.plot(thetas, np.sin(thetas), label='sin(th)')
-plt.legend()
-plt.show()
 
-plt.plot(thetas, mus[idx], label='mus')
-plt.plot(thetas, np.cos(thetas), label='cos(th)')
-plt.legend()
-plt.show()
+for idx in idxes:
+    plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
+    plt.plot(thetas, np.sin(thetas), label='sin(th)')
+    plt.legend()
+    plt.show()
 
-plt.scatter(thetas, sigmas[idx], label='sigmas')
-plt.legend()
-plt.show()
+    plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
+    plt.plot(thetas, np.cos(thetas), label='cos(th)')
+    plt.legend()
+    plt.show()
+
+    plt.scatter(thetas, sigmas[idx], label='sigmas')
+    plt.legend()
+    plt.show()
 
 print('###### THETA ######')
 for i in range(nlat):
