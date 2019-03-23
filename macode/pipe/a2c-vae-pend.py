@@ -5,7 +5,7 @@ from baselines.run import main
 from baselines.common.cmd_util import make_vec_env
 from forkan.rl import VecVAEStack
 
-vae_name = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56'.replace('/', ':')
+vae_name = 'pendvisualuniform-b77.5-lat5-lr0.001-2019-03-21T00/13'.replace('/', ':')
 
 def build_pend_env(args, **kwargs):
     alg = args.alg
@@ -18,7 +18,7 @@ def build_pend_env(args, **kwargs):
 
 args = [
     '--env', 'PendulumVisual-v0',
-    '--num_timesteps', '20e6',
+    '--num_timesteps', '8e6',
     '--alg', 'a2c',
     '--network', 'mlp',
     '--num_env', str(16),
