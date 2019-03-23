@@ -8,10 +8,10 @@ def build_pend_env(args, **kwargs):
     seed = args.seed
 
     env = make_env(args.env, 'classic_control', seed=seed)
-    return VAEStack(env, k=3)
+    return VAEStack(env, k=16)
 
 args = [
-    '--num_timesteps', '50e6',
+    '--num_timesteps', '40e6',
     '--env', 'PendulumVisual-v0',
     '--alg', 'trpo_mpi',
     '--network', 'mlp',
