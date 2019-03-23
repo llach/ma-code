@@ -16,20 +16,18 @@ def build_pend_env(args, **kwargs):
                              flatten_dict_observations=flatten_dict_observations)
     return VecVAEStack(env, k=3, load_from=vae_name)
 
-for nenv in [16, 12, 24, 8]:
-    args = [
-        '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '20e6',
-        '--alg', 'a2c',
-        '--network', 'mlp',
-        '--num_hidden', '256',
-        '--num_env', str(nenv),
-        '--seed', '1',
-    ]
+args = [
+    '--env', 'PendulumVisual-v0',
+    '--num_timesteps', '20e6',
+    '--alg', 'a2c',
+    '--network', 'mlp',
+    '--num_env', str(16),
+    '--seed', '1',
+]
 
-    main(args, build_fn=build_pend_env)
-    s = get_session()
-    s.close()
-    clear_session()
-    tf.reset_default_graph()
-    pass
+main(args, build_fn=build_pend_env)
+s = get_session()
+s.close()
+clear_session()
+tf.reset_default_graph()
+pass
