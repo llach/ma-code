@@ -56,9 +56,16 @@ for i, theta in enumerate(np.linspace(0, 4*np.pi, FRAMES)):
 # -np.cos(thetas + np.pi/4)
 
 load_from = 'pendvisualuniform-b20-lat5-lr0.001-2019-03-18T20/16'.replace('/', ':')
-idxes = [0, 1]
+# idxes = [0, 1]
 # load_from = 'pendvisualuniform-b22-lat5-lr0.001-2019-03-18T20/23'.replace('/', ':')
 # idxes = [2, 3]
+# load_from = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
+# idxes = [2]
+# load_from = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56'.replace('/', ':')
+load_from = 'pendvisualuniform-b77.5-lat5-lr0.001-2019-03-21T00/13'
+
+load_from = load_from.replace('/', ':')
+idxes = np.arange(5)
 
 v = VAE(load_from=load_from, network='pendulum')
 nlat = v.latent_dim
@@ -103,19 +110,30 @@ if show_recs:
 sns.set()
 
 for idx in idxes:
-    plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
-    plt.plot(thetas, np.sin(thetas), label='sin(th)')
+    break
+    plt.scatter(thetas, mus[idx], label='mus[{}]'.format(idx))
+    # plt.plot(thetas, np.sin(thetas), label='sin(th)')
     plt.legend()
     plt.show()
 
-    plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
-    plt.plot(thetas, np.cos(thetas), label='cos(th)')
-    plt.legend()
-    plt.show()
+    # plt.scatter(thetas, mus[idx], label='mus[{}]'.format(idx))
+    # plt.plot(thetas, np.cos(thetas), label='cos(th)')
+    # plt.legend()
+    # plt.show()
+    #
+    # plt.scatter(thetas, sigmas[idx], label='sigmas')
+    # plt.legend()
+    # plt.show()
 
-    plt.scatter(thetas, sigmas[idx], label='sigmas')
-    plt.legend()
-    plt.show()
+for idx in idxes:
+    plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
+    plt.scatter(thetas, mus[idx])
+
+plt.plot(thetas, np.sin(thetas), label='sin')
+plt.plot(thetas, np.cos(thetas), label='cos')
+plt.title(load_from)
+plt.legend()
+plt.show()
 
 print('###### THETA ######')
 for i in range(nlat):
@@ -128,3 +146,6 @@ for i in range(nlat):
 print('###### COS(THETA) ######')
 for i in range(nlat):
     print(i, metric(np.cos(thetas), mus[i]), sigmasmean[i])
+
+
+print(metric(mus[3], mus[4]))
