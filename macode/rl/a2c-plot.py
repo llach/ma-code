@@ -11,10 +11,10 @@ import seaborn as sns; sns.set()
 
 log = logging.getLogger(__name__)
 
-models_dir = '{}a2c-TEST/'.format(model_path)
+models_dir = '{}a2c/'.format(model_path)
 dirs = ls_dir(models_dir)
 
-filter = 'b1.0'
+filter = ''
 for d in dirs:
     ds_name = d.split('/')[-1].split('-')[0]
     model_name = d.split('/')[-1]
