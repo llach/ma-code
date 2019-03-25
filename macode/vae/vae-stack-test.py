@@ -1,14 +1,14 @@
 from forkan.rl import VAEStack
 import numpy as np
 
-from gym.envs.classic_control.pendulum_test import  PendulumTestEnv
+from gym.envs.classic_control.pendulum_test import PendulumTestEnv
 import matplotlib.pyplot as plt
 import seaborn as sns
 #
-# vae_name = 'pendvisualuniform-b22-lat5-lr0.001-2019-03-18T20/23'.replace('/', ':')
+vae_name = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
 
-env = PendulumTestEnv()
-venv = VAEStack(env, k=3)
+env = PendulumTestEnv(steps=200)
+venv = VAEStack(env, load_from=vae_name, k=3)
 
 
 thetas = []
@@ -31,22 +31,23 @@ while not d:
 
     o, _, d, _ = venv.step(0)
 
-dings = np.moveaxis(np.asarray(dings, dtype=np.float), 0, -1)
+# dings = np.moveaxis(np.asarray(dings, dtype=np.float), 0, -1)
 # dings = np.asarray(dings, dtype=np.float).reshape(6, 20)  ### WRONG!!! old bug, just for visualising
 sns.set()
+dings = np.asarray(dings)
 
-fig, axes = plt.subplots(2, 1, figsize=(10, 8))
+
+fig, axes = plt.subplots(1, 1, figsize=(10, 8))
 fig.suptitle("VAE Stack observation space", fontsize=16)
 
-axes[0].plot(thetas, dings[0], label='mu 0')
-axes[0].plot(thetas, dings[2], label='mu 2')
-axes[0].plot(thetas, dings[4], label='mu 4')
-axes[0].legend()
+lats = 5
+stack = 3
 
-axes[1].plot(thetas, dings[1], label='mu 1')
-axes[1].plot(thetas, dings[3], label='mu 3')
-axes[1].plot(thetas, dings[5], label='mu 5')
-axes[1].legend()
+for jott in range(stack):
+    for idx in range(lats):
+        axes.plot(thetas, dings[..., idx+(jott*lats)], label='obs {}'.format(idx+(jott*lats)))
+        # axes.scatter(thetas, dings[..., idx+(jott*lats)])
+axes.legend()
 
 fig.tight_layout()
 fig.subplots_adjust(top=0.88)

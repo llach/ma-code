@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 network = 'pendulum'
 # filter = 'pendvisualuniform-b50-lat5-lr0.001-WU20-2019-03-19T09:54'.replace('/', ':')
-filter = 'pendvisualuniform'.replace('/', ':')
+filter = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
 plt_shape = [1, 5]
 
 

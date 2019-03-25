@@ -45,7 +45,7 @@ def _render_pendulum(th):
                                  [0.299, 0.587, 0.114]), -1) / 255
 
 
-for i, theta in enumerate(np.linspace(0, 4*np.pi, FRAMES)):
+for i, theta in enumerate(np.linspace(0, 2*np.pi, FRAMES)):
     frame = _render_pendulum(theta)
     frames[i] = frame
     thetas.append(theta)
@@ -110,7 +110,7 @@ if show_recs:
 sns.set()
 
 for idx in idxes:
-    break
+
     plt.scatter(thetas, mus[idx], label='mus[{}]'.format(idx))
     # plt.plot(thetas, np.sin(thetas), label='sin(th)')
     plt.legend()
@@ -129,11 +129,12 @@ for idx in idxes:
     plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
     plt.scatter(thetas, mus[idx])
 
-plt.plot(thetas, np.sin(thetas), label='sin')
-plt.plot(thetas, np.cos(thetas), label='cos')
+# plt.plot(thetas, np.sin(thetas), label='sin')
+# plt.plot(thetas, np.cos(thetas), label='cos')
 plt.title(load_from)
 plt.legend()
 plt.show()
+plt.savefig('')
 
 print('###### THETA ######')
 for i in range(nlat):
