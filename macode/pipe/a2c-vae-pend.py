@@ -21,11 +21,9 @@ for nenvs in [16]:
             '--env', 'PendulumVisual-v0',
             '--num_timesteps', '8e6',
             '--alg', 'a2c',
-            '--network', 'mlp',
+            '--network', 'mlp-mod',
             '--num_env', str(nenvs),
             '--seed', '1',
-            '--num_hidden', '256',
-            '--num_layers', '4',
         ]
 
         main(args, build_fn=build_pend_env)
