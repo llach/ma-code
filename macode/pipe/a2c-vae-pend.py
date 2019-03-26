@@ -25,7 +25,7 @@ for nenvs in [16]:
             '--num_env', str(nenvs),
             '--seed', '1',
             '--num_hidden', '256',
-            '--num_layers' '4',
+            '--num_layers', '4',
         ]
 
         main(args, build_fn=build_pend_env)
