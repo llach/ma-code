@@ -21,7 +21,7 @@ for nenvs in [16]:
             '--env', 'PendulumVisual-v0',
             '--num_timesteps', '8e6',
             '--alg', 'a2c',
-            '--network', 'lstm',
+            '--network', 'mlp',
             '--num_env', str(nenvs),
             '--seed', '1',
             '--num_hidden', '256',
