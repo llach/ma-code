@@ -6,8 +6,8 @@ from baselines.common.cmd_util import make_vec_env
 from forkan.rl import VecVAEStack
 
 
-for nenvs in [16, 12, 8, 6]:
-    for k in [1, 4, 6]:
+for nenvs in [16]:
+    for k in [3]:
         def build_pend_env(args, **kwargs):
             alg = args.alg
             seed = args.seed
@@ -24,6 +24,8 @@ for nenvs in [16, 12, 8, 6]:
             '--network', 'lstm',
             '--num_env', str(nenvs),
             '--seed', '1',
+            '--num_hidden', '256',
+            '--num_layers' '4',
         ]
 
         main(args, build_fn=build_pend_env)
