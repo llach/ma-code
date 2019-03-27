@@ -8,7 +8,7 @@ name = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
 v = VAE(load_from=name, network='pendulum')
 shape = v.input_shape[:2]
 
-idx = 1
+idx = 2
 
 np.random.seed(1)
 

@@ -30,7 +30,7 @@ for ob in range(nobs):
     lines.append(plt.plot(name='obs{}'.format(ob)))
 
 offset = 0
-LINECOLORS = ['r', 'g', 'b', 'c', 'm', 'y', 'w']
+LINECOLORS = ['r', 'g', 'b', 'c', 'm', 'y']
 
 for _ in range(5000):
     ths.append(offset+env._get_theta())
@@ -39,7 +39,9 @@ for _ in range(5000):
     mus.append(o)
 
     for ob in range(nobs):
-        lines[ob].setData(ths, np.asarray(mus)[...,ob], clear=True, pen=pg.mkPen(cosmetic=True, width=2.5))#, color=LINECOLORS[ob%len(LINECOLORS)-1]))
+        lines[ob].setData(ths, np.asarray(mus)[...,ob], clear=True, pen=pg.mkPen(cosmetic=True,
+                                                                                 width=2.5,
+                                                                                 color=LINECOLORS[ob%len(LINECOLORS)-1]))
 
     pg.QtGui.QApplication.processEvents()
 

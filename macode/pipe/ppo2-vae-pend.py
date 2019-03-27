@@ -11,7 +11,7 @@ def build_pend_env(args, **kwargs):
     seed = args.seed
 
     flatten_dict_observations = alg not in {'her'}
-    env = make_vec_env('PendulumVisual-v0', 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
+    env = make_vec_env(args.env, 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
                              flatten_dict_observations=flatten_dict_observations)
     return VecVAEStack(env, k=3, load_from='pendvisualuniform-b77.5-lat5-lr0.001-2019-03-21T00/13'.replace('/', ':'))
 

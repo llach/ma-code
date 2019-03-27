@@ -55,14 +55,14 @@ for i, theta in enumerate(np.linspace(0, 2*np.pi, FRAMES)):
 # np.sin(2*(thetas + np.pi/4))
 # -np.cos(thetas + np.pi/4)
 
-load_from = 'pendvisualuniform-b20-lat5-lr0.001-2019-03-18T20/16'.replace('/', ':')
+# load_from = 'pendvisualuniform-b20-lat5-lr0.001-2019-03-18T20/16'.replace('/', ':')
 # idxes = [0, 1]
 # load_from = 'pendvisualuniform-b22-lat5-lr0.001-2019-03-18T20/23'.replace('/', ':')
 # idxes = [2, 3]
 # load_from = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
 # idxes = [2]
-# load_from = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56'.replace('/', ':')
-load_from = 'pendvisualuniform-b77.5-lat5-lr0.001-2019-03-21T00/13'
+load_from = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56'.replace('/', ':')
+# load_from = 'pendvisualuniform-b77.5-lat5-lr0.001-2019-03-21T00/13'
 
 load_from = load_from.replace('/', ':')
 idxes = np.arange(5)
@@ -110,7 +110,7 @@ if show_recs:
 sns.set()
 
 for idx in idxes:
-
+    break
     plt.scatter(thetas, mus[idx], label='mus[{}]'.format(idx))
     # plt.plot(thetas, np.sin(thetas), label='sin(th)')
     plt.legend()
@@ -134,7 +134,6 @@ for idx in idxes:
 plt.title(load_from)
 plt.legend()
 plt.show()
-plt.savefig('')
 
 print('###### THETA ######')
 for i in range(nlat):
