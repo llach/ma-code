@@ -27,6 +27,7 @@ for k in [3, 5]:
         '--num_env', '8',
         '--seed', '1',
         '--k', str(k),
+        '--tensorboard', 'True',
     ]
 
     main(args, build_fn=build_pend_env)
