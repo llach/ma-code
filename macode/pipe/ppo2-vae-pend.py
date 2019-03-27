@@ -21,8 +21,8 @@ args = [
     '--alg', 'ppo2',
     '--network', 'mlp',
     '--log_interval', '2',
-    '--nminibatches', '16',
-    '--noptepochs', '8',
+    '--nminibatches', '32',
+    '--noptepochs', '10',
     '--num_env', '8',
     '--seed', '1',
 ]
