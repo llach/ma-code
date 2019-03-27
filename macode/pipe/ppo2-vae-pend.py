@@ -17,12 +17,12 @@ def build_pend_env(args, **kwargs):
 
 args = [
     '--env', 'PendulumVisual-v0',
-    '--num_timesteps', '2e6',
+    '--num_timesteps', '10e6',
     '--alg', 'ppo2',
     '--network', 'mlp',
     '--log_interval', '2',
-    '--nminibatches', '32',
-    '--noptepochs', '10',
+    '--nminibatches', '16',
+    '--noptepochs', '8',
     '--num_env', '8',
     '--seed', '1',
 ]
