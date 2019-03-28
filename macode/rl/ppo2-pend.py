@@ -5,12 +5,8 @@ import tensorflow as tf
 from baselines.run import main
 
 def build_pend_env(args, **kwargs):
-    alg = args.alg
-    seed = args.seed
-
-    flatten_dict_observations = alg not in {'her'}
-    return make_vec_env(args.env, 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
-                             flatten_dict_observations=flatten_dict_observations)
+    return make_vec_env(args.env, 'classic_control', args.num_env or 1, args.seed, reward_scale=args.reward_scale,
+                             flatten_dict_observations=True)
 
 
 args = [
@@ -24,6 +20,7 @@ args = [
     '--log_interval', '2',
     '--seed', '1',
     '--tensorboard', 'True',
+    '--k', '5',
 ]
 
 main(args)

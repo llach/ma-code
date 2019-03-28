@@ -6,7 +6,7 @@ import tensorflow as tf
 
 args = [
     '--num_timesteps', '2e6',
-    '--env', 'Pendulum-v0',
+    '--env', 'PendulumTheta-v0',
     '--alg', 'a2c',
     '--network', 'mlp',
     '--seed', '1',
