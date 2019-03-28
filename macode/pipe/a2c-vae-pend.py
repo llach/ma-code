@@ -23,6 +23,7 @@ for nenvs in [4]:
         '--network', 'mlp',
         '--num_env', str(nenvs),
         '--seed', '1',
+        '--tensorboard', 'True',
     ]
 
     main(args, build_fn=build_pend_env)
