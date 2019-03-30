@@ -14,7 +14,7 @@ vae_names = [
     'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20',
 ]
 
-for seed in [1, 2]:
+for seed in [1, 2, 3, 4, 5]:
     for vae_name in vae_names:
         def build_pend_env(args, **kwargs):
             alg = args.alg
