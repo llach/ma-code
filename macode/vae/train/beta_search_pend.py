@@ -5,9 +5,8 @@ from forkan.datasets import load_uniform_pendulum
 
 latents = 5
 lr = 1e-3
-betas = 40+2.5*np.arange(17)
 
-for beta in betas:
+for beta in [1, 22, 80]:
     print('loading data ...')
     data = load_uniform_pendulum()
     print('starting training!')
