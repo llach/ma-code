@@ -16,7 +16,7 @@ for beta in np.append([1, 22.5], betas):
     with tf.Session() as s:
         v = VAE(data.shape[1:], network='pendulum', name='pendvisualuniform',
                 beta=beta, lr=lr, latent_dim=latents, session=s)
-        v.train(data, num_episodes=100, print_freq=200)
+        v.train(data, num_episodes=50, print_freq=200)
 
     tf.reset_default_graph()
 
