@@ -1,6 +1,7 @@
 import csv
 import logging
 import numpy as np
+import tensorflow as tf
 from forkan import model_path
 from forkan.common.utils import ls_dir
 from forkan.models import VAE
@@ -9,17 +10,20 @@ from forkan.datasets import load_uniform_pendulum
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 
-from macode.vae.plot_helper import bars, plot_losses
+from macode.vae.plot_helper import bars
+from scipy.signal import medfilt
 
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
 # filter = 'pendvisualuniform-b50-lat5-lr0.001-WU20-2019-03-19T09:54'.replace('/', ':')
-filter = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
+# filter = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
+# filter = 'pendvisualuniform-b22-lat5-lr0.001-2019-03-30T19/34'.replace('/', ':')
+filter = 'b75'
 plt_shape = [1, 5]
 
 
-models_dir = '{}vae-{}/'.format(model_path, network)
+models_dir = '{}TFvae-{}/'.format(model_path, network)
 dirs = ls_dir(models_dir)
 
 for d in dirs:
@@ -31,7 +35,7 @@ for d in dirs:
             logger.info('skipping {}'.format(model_name))
             continue
 
-    kls, recs = [], []
+    kls, recs, zidx, zs = [], [], [], []
     kli = reci = None
 
     with open('{}/progress.csv'.format(d)) as csv_file:
@@ -44,10 +48,19 @@ for d in dirs:
                         reci = n
                     elif 'kl-loss' in ele:
                         kli = n
+                    elif '-kl' in ele:
+                        zidx.append(n)
+
+                for _ in zidx:
+                    zs.append([])
+
                 line_count += 1
             else:
                 kls.append(row[kli])
                 recs.append(row[reci])
+
+                for n, idx in enumerate(zidx):
+                    zs[n].append(row[idx])
 
                 line_count += 1
 
@@ -55,8 +68,8 @@ for d in dirs:
         print('{} had no progress, skipping'.format(model_name))
         continue
 
-    kls = kls[1:]
-    recs = recs[1:]
+    kls = medfilt(np.asarray(kls[100:], dtype=np.float32), 19)
+    recs = medfilt(np.asarray(recs[100:], dtype=np.float32), 19)
 
     plt.figure(figsize=(10, 10))
     plt.subplot(221)
@@ -86,7 +99,16 @@ for d in dirs:
     plt.savefig('{}/results.png'.format(d))
     plt.show()
 
-    # if modes[1]:
-    #     plot_losses(d)
-    # plt.savefig('{}/{}.png'.format(d, type))
+    for n, zkl in enumerate(zs):
+        zkl = medfilt(np.asarray(zkl, dtype=np.float32), 19)
+        plt.plot(zkl, label='z{}'.format(n))
+
+    plt.title('kl loss for each latents')
+    plt.legend()
+
+    plt.savefig('{}/z-kls.png'.format(d))
+    plt.show()
+
+    tf.reset_default_graph()
+
 logger.info('Done.')
