@@ -1,4 +1,3 @@
-from keras.backend import clear_session
 from baselines.common.tf_util import get_session
 import tensorflow as tf
 from baselines.run import main
@@ -9,9 +8,8 @@ from forkan.rl import VecVAEStack
 k = 5
 
 vae_names = [
-    'pendvisualuniform-b77.5-lat5-lr0.001-2019-03-21T00/13',
-    'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56',
-    'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20',
+    'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-31T16/22',
+    'pendvisualuniform-b82.47-lat5-lr0.001-2019-03-31T19/31',
 ]
 
 for seed in [1, 2, 3, 4, 5]:
@@ -42,6 +40,5 @@ for seed in [1, 2, 3, 4, 5]:
         main(args, build_fn=build_pend_env)
         s = get_session()
         s.close()
-        clear_session()
         tf.reset_default_graph()
         pass
