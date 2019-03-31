@@ -1,3 +1,4 @@
+import os
 import csv
 import logging
 import numpy as np
@@ -10,16 +11,13 @@ from forkan.datasets import load_uniform_pendulum
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 
-from macode.vae.plot_helper import bars
+from macode.vae.plot_helper import bars, plot_latents
 from scipy.signal import medfilt
 
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
-# filter = 'pendvisualuniform-b50-lat5-lr0.001-WU20-2019-03-19T09:54'.replace('/', ':')
-# filter = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
-# filter = 'pendvisualuniform-b22-lat5-lr0.001-2019-03-30T19/34'.replace('/', ':')
-filter = 'b75'
+filter = ''
 plt_shape = [1, 5]
 
 
@@ -34,6 +32,10 @@ for d in dirs:
         if filter not in model_name:
             logger.info('skipping {}'.format(model_name))
             continue
+
+    if os.path.isfile(f'{d}/results.png') and os.path.isfile(f'{d}/z-kls.png') and os.path.isfile(f'{d}/theta_traversal.png'):
+        logger.info('skipping {} | pngs exist'.format(model_name))
+        continue
 
     kls, recs, zidx, zs = [], [], [], []
     kli = reci = None
@@ -103,11 +105,13 @@ for d in dirs:
         zkl = medfilt(np.asarray(zkl, dtype=np.float32), 19)
         plt.plot(zkl, label='z{}'.format(n))
 
-    plt.title('kl loss for each latents')
+    plt.title('each latent\'s kl')
     plt.legend()
 
     plt.savefig('{}/z-kls.png'.format(d))
     plt.show()
+
+    plot_latents(d, v, model_name)
 
     tf.reset_default_graph()
 
