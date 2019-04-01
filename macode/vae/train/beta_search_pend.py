@@ -21,7 +21,7 @@ for beta in np.round(np.linspace(70, 110, 400), 2):
     print('starting training!')
 
     with tf.Session() as s:
-        v = VAE(data.shape[1:], network='pendulum', name='TEST',
+        v = VAE(data.shape[1:], network='pendulum', name='pendvisualuniformONE',
                 beta=beta, lr=lr, latent_dim=latents, session=s)
         v.train(data, batch_size=128, num_episodes=50, print_freq=200)
 
