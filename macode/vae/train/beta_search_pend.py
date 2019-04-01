@@ -15,7 +15,7 @@ lr = 1e-3
 
 logger = logging.getLogger(__name__)
 
-for beta in np.round(np.linspace(7, 110, 400), 2):
+for beta in np.round(np.linspace(70, 110, 400), 2):
     print('loading data ...')
     data = load_uniform_pendulum()
     print('starting training!')
