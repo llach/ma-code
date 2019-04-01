@@ -17,7 +17,7 @@ from scipy.signal import medfilt
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
-filter = ''
+filter = 'ONE'
 plt_shape = [1, 5]
 
 

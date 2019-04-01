@@ -7,7 +7,7 @@ from forkan.datasets import load_uniform_pendulum
 latents = 5
 lr = 1e-3
 
-for beta in np.round(np.linspace(85, 95, 15), 2):
+for beta in np.round(np.linspace(65, 90, 40), 2):
     print('loading data ...')
     data = load_uniform_pendulum()
     print('starting training!')
