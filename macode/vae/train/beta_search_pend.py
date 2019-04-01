@@ -8,7 +8,7 @@ latents = 5
 lr = 1e-3
 betas = 70+2.5*np.arange(5)
 
-for beta in np.round(np.linspace(77, 85, 20), 2):
+for beta in np.round(np.linspace(85, 95, 15), 2):
     print('loading data ...')
     data = load_uniform_pendulum()
     print('starting training!')
