@@ -37,6 +37,10 @@ for d in dirs:
         logger.info('skipping {} | pngs exist'.format(model_name))
         continue
 
+    if not os.path.isfile('{}/progress.csv'.format(d)):
+        logger.info('skipping {} | file not found'.format(model_name))
+        continue
+
     kls, recs, zidx, zs = [], [], [], []
     kli = reci = None
 
