@@ -21,7 +21,7 @@ filter = ''
 plt_shape = [1, 5]
 
 
-models_dir = '{}TFvae-{}/'.format(model_path, network)
+models_dir = '{}vae-{}/'.format(model_path, network)
 dirs = ls_dir(models_dir)
 
 for d in dirs:
