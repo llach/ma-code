@@ -4,11 +4,11 @@ import numpy as np
 from forkan.models import VAE
 
 
-name = 'pendvisualuniform-b80.0-lat5-lr0.001-2019-03-21T00/20'.replace('/', ':')
+name = 'pendvisualuniformONE-b85.34-lat5-lr0.001-2019-04-02T06/29'.replace('/', ':')
 v = VAE(load_from=name, network='pendulum')
 shape = v.input_shape[:2]
 
-idx = 2
+idx = 4
 
 np.random.seed(1)
 
@@ -19,7 +19,7 @@ for i, r in enumerate(np.linspace(-3, 3, 20)):
 
     img = v.decode(np.reshape(latents, [1, v.latent_dim]))
 
-    plt.imshow(np.reshape(img, shape), cmap='Greys_r')
+    plt.imshow(np.squeeze(img), cmap='Greys_r')
     plt.title('z_{}'.format(idx))
     plt.pause(0.1)
     plt.clf()
