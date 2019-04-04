@@ -14,9 +14,9 @@ latents = 5
 lr = 1e-3
 
 logger = logging.getLogger(__name__)
-
-for seed in np.arange(10):
-    for beta in np.round(np.linspace(65, 90, 150), 2):
+#np.round(np.linspace(65, 90, 150), 2)
+for seed in [0]:
+    for beta in np.arange(10)+76:
 
         np.random.seed(seed)
         tf.set_random_seed(seed)
