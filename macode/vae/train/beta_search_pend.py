@@ -16,7 +16,7 @@ lr = 1e-3
 logger = logging.getLogger(__name__)
 #np.round(np.linspace(65, 90, 150), 2)
 for seed in [0]:
-    for beta in np.asarray(np.arange(10)+76, dtype=int):
+    for beta in np.asarray(np.arange(10)+76, dtype=float):
 
         np.random.seed(seed)
         tf.set_random_seed(seed)
@@ -26,7 +26,7 @@ for seed in [0]:
         print('starting training!')
 
         with tf.Session() as s:
-            v = VAE(data.shape[1:], network='pendulum', name='pendvisualuniformONE',
+            v = VAE(data.shape[1:], network='pendulum', name='pendvisualuniform',
                     beta=beta, lr=lr, latent_dim=latents, session=s)
             v.train(data, batch_size=128, num_episodes=50, print_freq=200)
 
