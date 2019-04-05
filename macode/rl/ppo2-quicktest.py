@@ -7,7 +7,7 @@ from baselines.common.vec_env.vec_frame_stack import VecFrameStack
 
 
 nsteps = 10
-k = 5
+k = 3
 
 def build_pend_env(args, **kwargs):
     alg = args.alg
