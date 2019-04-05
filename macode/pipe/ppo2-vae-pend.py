@@ -8,7 +8,7 @@ from forkan.rl import VecVAEStack
 k = 5
 
 vae_names = [
-    'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-31T16/22',
+    'pendvisualuniform-b80.0-lat5-lr0.001-2019-04-04T15/03',
     'pendvisualuniform-b82.47-lat5-lr0.001-2019-03-31T19/31',
 ]
 
