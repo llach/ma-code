@@ -1,13 +1,19 @@
-from keras.backend import clear_session
-from baselines.common.tf_util import get_session
 import tensorflow as tf
-from baselines.run import main
-from baselines.common.cmd_util import make_vec_env
-from baselines.common.vec_env.vec_frame_stack import VecFrameStack
+from keras.backend import clear_session
 
+from baselines.common.cmd_util import make_vec_env
+from baselines.common.tf_util import get_session
+from baselines.common.vec_env.vec_frame_stack import VecFrameStack
+from baselines.run import main
 
 nsteps = 10
 k = 3
+
+vae_params = {
+    'init_from': 'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02:14'.replace('/', ':'),
+    'k': k,
+    'latent_dim': 5
+}
 
 def build_pend_env(args, **kwargs):
     alg = args.alg
@@ -31,11 +37,10 @@ args = [
     '--log_interval', '2',
     '--seed', '0',
     '--tensorboard', 'True',
-    '--vae_model', 'pendvisualuniform-b80.0-lat5-lr0.001-2019-04-04T15/03'.replace('/', ':'),
     '--k', str(k),
 ]
 
-main(args, build_fn=build_pend_env)
+main(args, build_fn=build_pend_env, vae_params=vae_params)
 s = get_session()
 s.close()
 clear_session()

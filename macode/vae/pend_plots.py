@@ -1,15 +1,18 @@
-import os
 import csv
 import logging
-import numpy as np
-import tensorflow as tf
-from forkan import model_path
-from forkan.common.utils import ls_dir
-from forkan.models import VAE
-from forkan.datasets import load_uniform_pendulum
+import os
 
 import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()
+import numpy as np
+import seaborn as sns;
+import tensorflow as tf
+
+from forkan import model_path
+from forkan.common.utils import ls_dir
+from forkan.datasets import load_uniform_pendulum
+from forkan.models import VAE
+
+sns.set()
 
 from macode.vae.plot_helper import bars, plot_latents
 from scipy.signal import medfilt
@@ -17,7 +20,7 @@ from scipy.signal import medfilt
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
-filter = ''.replace('/', ':')
+filter = 'SEARCH'.replace('/', ':')
 plt_shape = [1, 5]
 
 
