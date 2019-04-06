@@ -6,12 +6,12 @@ from baselines.common.vec_env.vec_frame_stack import VecFrameStack
 from baselines.run import main
 
 k = 5
-seed = 0
 
 vae_params = {
     'init_from': 'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02:14'.replace('/', ':'),
     'k': k,
-    'latent_dim': 5
+    'latent_dim': 5,
+    'with_attrs':  True,
 }
 
 def build_pend_env(args, **kwargs):
