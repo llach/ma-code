@@ -24,7 +24,7 @@ def build_pend_env(args, **kwargs):
     return VecFrameStack(env, k)
 
 
-for seed in [1, 2, 3]:
+for seed in [0, 1, 2]:
     args = [
         '--env', 'PendulumVisual-v0',
         '--num_timesteps', '10e6',
