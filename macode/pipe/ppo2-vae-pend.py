@@ -1,15 +1,16 @@
-from baselines.common.tf_util import get_session
 import tensorflow as tf
-from baselines.run import main
-from baselines.common.cmd_util import make_vec_env
-from forkan.rl import VecVAEStack
 
+from baselines.common.cmd_util import make_vec_env
+from baselines.common.tf_util import get_session
+from baselines.run import main
+from forkan.rl import VecVAEStack
 
 k = 5
 
 vae_names = [
-    'pendvisualuniform-b80.0-lat5-lr0.001-2019-04-04T15/03',
-    'pendvisualuniform-b82.47-lat5-lr0.001-2019-03-31T19/31',
+    'pendvisualuniform-b1-lat5-lr0.001-2019-04-08T22:04',
+    'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08',
+    'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02/14',
 ]
 
 for seed in [1, 2, 3, 4, 5]:
@@ -31,7 +32,7 @@ for seed in [1, 2, 3, 4, 5]:
             '--log_interval', '2',
             '--nminibatches', '32',
             '--noptepochs', '10',
-            '--num_env', '8',
+            '--num_env', '16',
             '--seed', str(seed),
             '--k', str(k),
             '--tensorboard', 'True',
