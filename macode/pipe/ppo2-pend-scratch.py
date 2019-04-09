@@ -10,7 +10,7 @@ k = 5
 vae_params = {
     'k': k,
     'latent_dim': 5,
-    'beta': 84,
+    'beta': 1,
 }
 
 def build_pend_env(args, **kwargs):
@@ -26,7 +26,7 @@ def build_pend_env(args, **kwargs):
 for seed in [0, 1, 2]:
     args = [
         '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '10e6',
+        '--num_timesteps', '30e6',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
