@@ -7,13 +7,7 @@ from baselines.run import main
 
 k = 5
 
-vae_params = {
-    'init_from': 'pendvisualuniform-b1-lat5-lr0.001-2019-04-08T22/04'.replace('/', ':'),
-    'k': k,
-    'latent_dim': 5,
-    'with_attrs':  True,
-    'with_kl': True,
-}
+
 
 def build_pend_env(args, **kwargs):
     alg = args.alg
@@ -25,10 +19,18 @@ def build_pend_env(args, **kwargs):
     return VecFrameStack(env, k)
 
 
-for seed in [0, 1, 2]:
+for seed in [1, 2]:
+    vae_params = {
+        'init_from': 'pendvisualuniform-b1-lat5-lr0.001-2019-04-08T22/04'.replace('/', ':'),
+        'k': k,
+        'latent_dim': 5,
+        'with_attrs': True,
+        'with_kl': True,
+    }
+
     args = [
         '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '10e6',
+        '--num_timesteps', '10',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
