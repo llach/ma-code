@@ -1,3 +1,5 @@
+import multiprocessing
+
 import tensorflow as tf
 
 from baselines.common.cmd_util import make_vec_env
@@ -7,6 +9,7 @@ from baselines.run import main
 
 k = 5
 rl_coef = 1
+nenv = multiprocessing.cpu_count()
 
 vae_params = {
     'k': k,
@@ -31,7 +34,7 @@ args = [
     '--log_interval', '2',
     '--nminibatches', '32',
     '--noptepochs', '10',
-    '--num_env', '16',
+    '--num_env', str(nenv),
     '--seed', 0,
     '--tensorboard', 'True',
     '--rl_coef', str(rl_coef),
