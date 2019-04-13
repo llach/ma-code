@@ -31,7 +31,7 @@ args = [
     '--num_timesteps', '10e6',
     '--alg', 'ppo2',
     '--network', 'mlp',
-    '--log_interval', '2',
+    '--log_interval', '1',
     '--nminibatches', '32',
     '--noptepochs', '10',
     '--num_env', str(nenv),
