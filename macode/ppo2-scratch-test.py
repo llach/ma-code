@@ -37,7 +37,7 @@ args = [
     '--f16', 'True',
     '--num_env', str(nenv),
     '--seed', 0,
-    '--tensorboard', 'True',
+    '--tensorboard', 'False',
     '--rl_coef', str(rl_coef),
     '--k', str(k),
 ]
