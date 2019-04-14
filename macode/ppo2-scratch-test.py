@@ -34,7 +34,7 @@ args = [
     '--log_interval', '1',
     '--nminibatches', '32',
     '--noptepochs', '10',
-    '--v_net', 'pendulum-mini',
+    '--f16', 'True',
     '--num_env', str(nenv),
     '--seed', 0,
     '--tensorboard', 'True',
