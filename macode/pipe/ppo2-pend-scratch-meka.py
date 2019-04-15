@@ -25,7 +25,7 @@ for rl_coef in [30, 100]:
 
     args = [
         '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '15e6',
+        '--num_timesteps', '8e6',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',

@@ -7,7 +7,7 @@ from baselines.run import main
 
 k = 5
 
-for rl_coef in [2, 10, 60]:
+for rl_coef in [10, 60]:
     vae_params = {
         'k': k,
         'latent_dim': 5,
@@ -25,7 +25,7 @@ for rl_coef in [2, 10, 60]:
 
     args = [
         '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '15e6',
+        '--num_timesteps', '8e6',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',

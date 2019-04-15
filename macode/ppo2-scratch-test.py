@@ -28,13 +28,12 @@ def build_pend_env(args, **kwargs):
 
 args = [
     '--env', 'PendulumVisual-v0',
-    '--num_timesteps', '10e6',
+    '--num_timesteps', '8e6',
     '--alg', 'ppo2',
     '--network', 'mlp',
     '--log_interval', '1',
     '--nminibatches', '32',
-    '--noptepochs', '10',
-    '--f16', 'True',
+    '--noptepochs', '2',
     '--num_env', str(nenv),
     '--seed', 0,
     '--tensorboard', 'False',
