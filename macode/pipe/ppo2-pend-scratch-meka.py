@@ -7,7 +7,7 @@ from baselines.run import main
 
 k = 5
 
-for rl_coef in [30, 100]:
+for rl_coef in [30, 40]:
     vae_params = {
         'k': k,
         'latent_dim': 5,
