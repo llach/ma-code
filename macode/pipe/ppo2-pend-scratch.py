@@ -36,6 +36,7 @@ for rl_coef in [10, 60]:
         '--tensorboard', 'True',
         '--rl_coef', str(rl_coef),
         '--k', str(k),
+        '--early_stop', 'True',
     ]
 
     main(args, build_fn=build_pend_env, vae_params=vae_params)
