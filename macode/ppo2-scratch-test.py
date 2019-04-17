@@ -33,7 +33,7 @@ args = [
     '--network', 'mlp',
     '--log_interval', '1',
     '--nminibatches', '32',
-    '--noptepochs', '20',
+    '--noptepochs', '10',
     '--num_env', str(nenv),
     '--seed', 0,
     '--tensorboard', 'False',
