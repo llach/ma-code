@@ -32,7 +32,7 @@ for rl_coef in [10, 60]:
         '--nminibatches', '32',
         '--noptepochs', '10',
         '--num_env', '16',
-        '--seed', 0,
+        '--seed', '0',
         '--tensorboard', 'True',
         '--rl_coef', str(rl_coef),
         '--k', str(k),
