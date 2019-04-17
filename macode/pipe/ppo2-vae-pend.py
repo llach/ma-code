@@ -36,6 +36,7 @@ for seed in [1, 2, 3, 4, 5]:
             '--seed', str(seed),
             '--k', str(k),
             '--tensorboard', 'True',
+            '--early_stop', 'True',
         ]
 
         main(args, build_fn=build_pend_env)
