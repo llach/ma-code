@@ -1,18 +1,13 @@
-from forkan.models import VAE
 from forkan.datasets import load_atari_normalized
+from forkan.models import VAE
 
-lrs = [1e-3, 1e-4]
-latents = 20
-betas = [0.5, 2.0, 3.5, 5.0]
-games = ['gopher', 'upndown', 'pong', 'breakout']
+betas = [1.0, 1.28, 2.0, 3.5, 5.0]
 
-for game in games:
-    for lr in lrs:
-        for beta in betas:
-            data = load_atari_normalized(game)
+for beta in betas:
+    data = load_atari_normalized('breakout')
 
-            v = VAE(data.shape[1:], network='atari', name=game, beta=beta, lr=lr, latent_dim=latents)
-            v.train(data, num_episodes=100)
+    v = VAE(data.shape[1:], network='atari', name='breakout', beta=beta, lr=1e-4, latent_dim=20)
+    v.train(data, num_episodes=100)
 
-            del data
-            del v
+    del data
+    del v
