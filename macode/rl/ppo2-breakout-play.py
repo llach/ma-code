@@ -1,6 +1,3 @@
-import tensorflow as tf
-
-from baselines.common.tf_util import get_session
 from baselines.run import main
 
 args = [
@@ -14,9 +11,4 @@ args = [
     '--play', 'True',
 ]
 
-main(args)
-
-get_session().close()
-tf.reset_default_graph()
-
-print('done')
+model, env = main(args)
