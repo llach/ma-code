@@ -1,21 +1,42 @@
+import tensorflow as tf
+
+from baselines.common.cmd_util import make_vec_env
+from baselines.common.tf_util import get_session
 from baselines.run import main
-from baselines.common.cmd_util import make_env
-from forkan.rl import VAEStack
+from forkan.rl import VecVAEStack
 
-vae_name = 'pendvisualuniform-b1.0-lat5-lr0.001-2019-03-18T19/56'.replace('/', ':')
+k = 5
 
-def build_pend_env(args, **kwargs):
-    seed = args.seed
-
-    env = make_env(args.env, 'classic_control', seed=seed)
-    return VAEStack(env, load_from=vae_name, k=3)
-
-args = [
-    '--num_timesteps', '4e6',
-    '--env', 'PendulumVisual-v0',
-    '--alg', 'trpo_mpi',
-    '--network', 'mlp',
+vae_names = [
+    'pendvisualuniform-b1-lat5-lr0.001-2019-04-08T22:04',
+    'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08',
+    'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02/14',
 ]
 
-main(args, build_fn=build_pend_env)
-pass
+for seed in [1, 2, 3, 4, 5]:
+    for vae_name in vae_names:
+        def build_pend_env(args, **kwargs):
+            alg = args.alg
+            seed = args.seed
+
+            flatten_dict_observations = alg not in {'her'}
+            env = make_vec_env(args.env, 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
+                                     flatten_dict_observations=flatten_dict_observations)
+            return VecVAEStack(env, k=k, load_from=vae_name.replace('/', ':'))
+
+        args = [
+            '--env', 'PendulumVisual-v0',
+            '--num_timesteps', '8e6',
+            '--alg', 'trpo_mpi',
+            '--network', 'mlp',
+            '--num_env', '16',
+            '--seed', str(seed),
+            '--k', str(k),
+            '--tensorboard', 'True',
+        ]
+
+        main(args, build_fn=build_pend_env)
+        s = get_session()
+        s.close()
+        tf.reset_default_graph()
+        pass
