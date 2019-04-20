@@ -20,7 +20,7 @@ args = [
     '--num_env', '1',
     '--log_interval', '1',
     '--seed', '0',
-    '--load_path', f'{home}/breakout-nenv16-rlc1.0-seed0-modeld-2019-04-17T20:39/best/',
+    '--load_path', f'{home}/breakout-ppo/',
     '--play', 'True',
 ]
 
