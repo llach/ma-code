@@ -7,7 +7,7 @@ for beta in betas:
     data = load_atari_normalized('breakout')
 
     v = VAE(data.shape[1:], network='atari', name='breakout', beta=beta, lr=1e-4, latent_dim=20)
-    v.train(data, num_episodes=100)
+    v.train(data, num_episodes=100, print_freq=200, batch_size=128)
 
     del data
     del v
