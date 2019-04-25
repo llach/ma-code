@@ -20,7 +20,7 @@ for seed in [0]:
             flatten_dict_observations = alg not in {'her'}
             env = make_vec_env(args.env, 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
                                      flatten_dict_observations=flatten_dict_observations)
-            return VecVAEStack(env, k=k, load_from=vae_name.replace('/', ':'), vae_network='atari')
+            return VecVAEStack(env, k=k, load_from=vae_name.replace('/', ':'), vae_network='atari', norm_fac=(1/255))
 
         args = [
             '--env', 'BreakoutNoFrameskip-v4',
