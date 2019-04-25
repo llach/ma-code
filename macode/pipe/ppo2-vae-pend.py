@@ -22,7 +22,7 @@ for seed in [1, 2, 3, 4, 5]:
             flatten_dict_observations = alg not in {'her'}
             env = make_vec_env(args.env, 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
                                      flatten_dict_observations=flatten_dict_observations)
-            return VecVAEStack(env, k=k, load_from=vae_name.replace('/', ':'))
+            return VecVAEStack(env, k=k, load_from=vae_name.replace('/', ':'), norm_fac=(1/255))
 
         args = [
             '--env', 'PendulumVisual-v0',
