@@ -1,14 +1,15 @@
 import csv
-import numpy as np
-from scipy.stats import kendalltau as metric
 
 import cairocffi as cairo
-
 import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()
+import numpy as np
+import seaborn as sns;
+from scipy.stats import kendalltau as metric
+
+sns.set()
 
 
-def bars(d, mean_sigma, plot_shape, type='sigma', thresh=0.8, title=None):
+def bars(d, mean_sigma, plot_shape, type='sigma', thresh=0.8, title=None, axes=[]):
     num_zi = plot_shape[1]
     num_plots = plot_shape[0]
 
@@ -32,8 +33,12 @@ def bars(d, mean_sigma, plot_shape, type='sigma', thresh=0.8, title=None):
     if num_plots == 1:
         sns.barplot(x=xs[0], y=ys[0], palette=pal[0], linewidth=0.5, label='mean-sigmas')
         plt.ylim(0, 1.05)
+    elif len(axes) == num_plots:
+        for i, ax in enumerate(axes):
+            sns.barplot(x=xs[i], y=ys[i], palette=pal[i], linewidth=0.5, label='mean-sigmas', ax=ax)
+            ax.set_ylim(0, 1.05)
     else:
-        print('multiple not suppported rn')
+        print('for multiple plots give as many subplots as indicated in plot_shape')
 
 
 def plot_z_kl(d, split=True):
