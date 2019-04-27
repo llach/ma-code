@@ -5,12 +5,13 @@ from baselines.common.tf_util import get_session
 from baselines.common.vec_env.vec_frame_stack import VecFrameStack
 from baselines.run import main
 
-k = 5
+k = 4
 
-for rl_coef in [30, 40]:
+
+for rlc in [1, 10, 30]:
     vae_params = {
         'k': k,
-        'latent_dim': 5,
+        'latent_dim': 20,
         'beta': 1,
     }
 
@@ -19,27 +20,30 @@ for rl_coef in [30, 40]:
         seed = args.seed
 
         flatten_dict_observations = alg not in {'her'}
-        env = make_vec_env(args.env, 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
+        env = make_vec_env(args.env, 'atari', args.num_env or 1, seed, reward_scale=args.reward_scale,
                            flatten_dict_observations=flatten_dict_observations)
         return VecFrameStack(env, k)
 
+
     args = [
-        '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '8e6',
+        '--env', 'BreakoutNoFrameskip-v4',
+        '--num_timesteps', '1e7',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
         '--nminibatches', '32',
         '--noptepochs', '10',
-        '--num_env', '8',
-        '--seed', 0,
-        '--tensorboard', 'True',
-        '--rl_coef', str(rl_coef),
+        '--num_env', '16',
+        '--v_net', 'atari',
+        '--seed', str(0),
         '--k', str(k),
+        '--rl_coef', str(rlc),
+        '--tensorboard', 'True',
+        '--log_weights', 'True',
     ]
 
     main(args, build_fn=build_pend_env, vae_params=vae_params)
     s = get_session()
     s.close()
     tf.reset_default_graph()
-    print('done')
+print('done')
