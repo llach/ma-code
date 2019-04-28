@@ -12,7 +12,7 @@ for seed in [1, 2, 3]:
 
 
     args = [
-        '--env', 'Pendulum-v0',
+        '--env', 'PendulumTheta-v0',
         '--num_timesteps', '10e6',
         '--alg', 'ppo2',
         '--network', 'mlp',
@@ -22,6 +22,7 @@ for seed in [1, 2, 3]:
         '--log_interval', '2',
         '--seed', str(seed),
         '--tensorboard', 'True',
+        '--k', '5',
     ]
 
     main(args)
