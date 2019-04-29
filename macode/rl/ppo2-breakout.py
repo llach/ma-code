@@ -5,6 +5,7 @@ from baselines.run import main
 
 args = [
     '--env', 'BreakoutNoFrameskip-v4',
+    '--num_timesteps', '1e7',
     '--alg', 'ppo2',
     '--num_env', '16',
     '--log_interval', '1',
