@@ -52,7 +52,7 @@ def read_keys(_dir, _filter, column_names):
 
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/ppo2-retrain-raw'
+models_dir = f'{home}/.forkan/done/breakout/ppo2-retrain-raw'
 
 for fi, name in [('', 'beta=1')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
@@ -64,13 +64,13 @@ for fi, name in [('', 'beta=1')]:
     plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
 
-plt.ylim(bottom=-1300, top=-100)
+plt.ylim(bottom=-1, top=50)
 
 plt.title('Unconstrained encoder adaption')
 plt.ylabel('Median Reward')
 plt.xlabel('Number of Updates')
 
-plt.savefig(f'{home}/.forkan/done/ppo2-retrain-raw/ret-raw.png')
+plt.savefig(f'{home}/.forkan/done/breakout/ppo2-retrain-raw/ret-raw.png')
 plt.show()
 
 logger.info('Done.')

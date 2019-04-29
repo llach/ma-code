@@ -52,26 +52,25 @@ def read_keys(_dir, _filter, column_names):
 
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/ppo2-fixed-vae'
+models_dir = f'{home}/.forkan/done/breakout/ppo2-fixed-vae'
 
-for fi, name in [('b1', 'ent'), ('b81', 'one lat'), ('b85', 'two lat')]:
+for fi, name in [('b1', 'ent')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
 
     xs = data['nupdates'][0]
     ys = data['mean_reward']
 
-    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
+    plt.plot(xs, np.nanmedian(ys, axis=0))
     plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
-plt.ylim(bottom=-1300, top=-100)
+plt.ylim(bottom=-1, top=50)
 
-plt.title('Model with fixed VAE Performance')
+plt.title('Model with fixed VAE')
 plt.ylabel('Median Reward')
 plt.xlabel('Number of Updates')
 
-plt.legend()
 
-plt.savefig(f'{home}/.forkan/done/ppo2-fixed-vae/pend-fixed.png')
+plt.savefig(f'{home}/.forkan/done/breakout/ppo2-fixed-vae/pend-fixed.png')
 plt.show()
 
 logger.info('Done.')
