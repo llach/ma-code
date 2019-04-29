@@ -52,24 +52,53 @@ def read_keys(_dir, _filter, column_names):
 
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/ppo2-retrain-kl'
+models_dir = f'{home}/.forkan/done/ppo2-scratch'
 
-for fi, name in [('', '1.0')]:
+for fi, name in [('rlc1-k5-seed0', 'kappa=1'), ('rlc10-k5-seed0', 'kappa=10'), ('rlc30-k5-seed0', 'kappa=30')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
 
     xs = data['nupdates'][0]
     ys = data['mean_reward']
 
-    plt.plot(xs, np.nanmedian(ys, axis=0))
+    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
     plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
 
 plt.ylim(bottom=-1300, top=-100)
 
-plt.title('Model adapted encoder and KL constraint')
+plt.title('Training from scratch with different kappa')
 plt.ylabel('Median Reward')
 plt.xlabel('Number of Updates')
 
+plt.legend()
+
+plt.savefig(f'{home}/.forkan/done/ppo2-scratch/kappa-nostop.png')
+plt.show()
+
+logger.info('second now --------------------------')
+
+for fi, name in [('rlc1-k5-seed0', 'kappa=1'), ('rlc10-k5-seed0', 'kappa=10'), ('rlc30-k5-seed0', 'kappa=30')]:
+    fi = fi.replace('seed0', 'stop')
+    data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
+
+    xs = data['nupdates'][0]
+    ys = data['mean_reward']
+
+    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
+    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
+
+
+plt.ylim(bottom=-1300, top=-100)
+
+plt.title('Training from scratch with different kappa and KL constraint')
+plt.ylabel('Median Reward')
+plt.xlabel('Number of Updates')
+
+plt.legend()
+
+plt.savefig(f'{home}/.forkan/done/ppo2-scratch/kappa-stop.png')
 plt.show()
 
 logger.info('Done.')
+
+
