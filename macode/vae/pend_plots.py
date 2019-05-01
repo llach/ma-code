@@ -20,7 +20,7 @@ from scipy.signal import medfilt
 logger = logging.getLogger(__name__)
 
 network = 'pendulum'
-filter = 'SEARCH'.replace('/', ':')
+filter = 'b1'.replace('/', ':')
 plt_shape = [1, 5]
 
 
@@ -35,10 +35,10 @@ for d in dirs:
         if filter not in model_name:
             logger.info('skipping {}'.format(model_name))
             continue
-
-    if os.path.isfile(f'{d}/results.png') and os.path.isfile(f'{d}/z-kls.png') and os.path.isfile(f'{d}/theta_traversal.png'):
-        logger.info('skipping {} | pngs exist'.format(model_name))
-        continue
+    #
+    # if os.path.isfile(f'{d}/results.png') and os.path.isfile(f'{d}/z-kls.png') and os.path.isfile(f'{d}/theta_traversal.png'):
+    #     logger.info('skipping {} | pngs exist'.format(model_name))
+    #     continue
 
     if not os.path.isfile('{}/progress.csv'.format(d)):
         logger.info('skipping {} | file not found'.format(model_name))

@@ -35,7 +35,6 @@ for step in tqdm(range(int(TOTAL_FRAMES))):
 
     img = np.asarray(np.squeeze(obs[..., -1]) / 255, dtype=np.float32)
 
-
     frames[step, ...] = img
 
     obs, _, done, _ = env.step(actions)

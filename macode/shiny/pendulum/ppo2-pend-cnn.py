@@ -1,0 +1,77 @@
+import csv
+import logging
+import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns;
+
+from forkan.common.utils import ls_dir
+
+sns.set()
+
+logger = logging.getLogger(__name__)
+
+
+def read_keys(_dir, _filter, column_names):
+
+    data = {}
+    for cn in column_names:
+        data.update({cn: []})
+
+    dirs = ls_dir(_dir)
+    for d in dirs:
+        model_name = d.split('/')[-1]
+        run_data = {}
+        for cn in column_names:
+            run_data.update({cn: []})
+
+        if _filter is not None and not '':
+            if _filter not in model_name:
+                logger.info(f'skipping {model_name} | no match with {_filter}')
+                continue
+
+        if not os.path.isfile('{}/progress.csv'.format(d)):
+            logger.info('skipping {} | file not found'.format(model_name))
+            continue
+
+        dic = csv.DictReader(open(f'{d}/progress.csv'))
+        for cn in column_names:
+            assert cn in dic.fieldnames, f'{cn} not in {dic.fieldnames}'
+
+        for row in dic:
+            for cn in column_names:
+                run_data[cn].append(row[cn])
+
+        for cn in column_names:
+            data[cn].append(run_data[cn])
+
+    for cn in column_names:
+        data[cn] = np.asarray(data[cn], dtype=np.float32)
+    return data
+
+
+home = os.environ['HOME']
+models_dir = f'{home}/.forkan/done/pendulum/ppo2-pend-cnn'
+
+for fi, name in [('NO', 'none'), ('TANH', 'tanh')]:
+    data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
+
+    xs = data['nupdates'][0]
+    ys = data['mean_reward']
+
+    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
+    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
+
+
+plt.ylim(bottom=-1500, top=-100)
+
+plt.title('encoder-like CNN')
+plt.ylabel('Median Reward')
+plt.xlabel('Number of Updates')
+plt.legend()
+
+plt.savefig(f'{models_dir}/cnn.png')
+plt.show()
+
+logger.info('Done.')
