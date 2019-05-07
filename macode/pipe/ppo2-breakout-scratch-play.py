@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
 import numpy as np
+from scipy.misc import imresize
 
 from baselines.common.cmd_util import make_vec_env
 from baselines.common.vec_env.vec_frame_stack import VecFrameStack
@@ -49,30 +49,23 @@ d = False
 
 print('playing policy')
 
-v_rgb = rendering.SimpleImageViewer()
-v_hat = rendering.SimpleImageViewer()
+viewer = rendering.SimpleImageViewer()
 
 t = 0
 
-while t < 20:
+while t < 2000:
 # while not d:
 
-    actions, xhat = model.step_xhat(obs)
+    (actions, xhat), x = model.step_xhat(obs)
 
-    img = env.render(mode='rgb_array')
+    img = imresize(np.squeeze(x)[-1], (230, 160))
+    rec = imresize(np.squeeze(xhat)[-1], (230, 160))
 
-    v_rgb.imshow(img)
-    # rec = np.stack((np.squeeze(xhat[-1]),)*3, axis=-1)
-    # v_hat.imshow(rec)
-    # print(rec.shape, img.shape)
-    plt.imshow(np.squeeze(xhat[-1]), cmap='Greys')
-    plt.show()
-    plt.imshow(np.squeeze(obs[...,-1]), cmap='Greys')
-    plt.show()
-    # exit(0)
+    shw = np.stack((np.concatenate((img, rec*255), axis=1),)*3, axis=-1)
+    viewer.imshow(np.asarray(shw, dtype=np.uint8))
 
     obs, _, done, _ = env.step(actions)
     d = done.any() if isinstance(done, np.ndarray) else done
-    t+= 1
+    t += 1
     if d:
         obs = env.reset()
