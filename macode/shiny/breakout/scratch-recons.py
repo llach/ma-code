@@ -21,7 +21,7 @@ runs = [
 ]
 
 
-v = RetrainVAE(f'{mdir}{runs[0]}/', (84, 84, 1), network='atari', latent_dim=20, beta=1, k=1, sess=tf.Session())
+v = RetrainVAE(f'{mdir}{runs[1]}/', (84, 84, 1), network='atari', latent_dim=20, beta=1, k=1, sess=tf.Session())
 v.load()
 
 rec_frames = np.squeeze(v.reconstruct(data))
