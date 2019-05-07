@@ -19,7 +19,7 @@ def build_pend_env(args, **kwargs):
     return VecFrameStack(env, k)
 
 
-for seed in [1, 2]:
+for seed in [3]:
     vae_params = {
         'init_from': 'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02/14'.replace('/', ':'),
         'k': k,
@@ -30,7 +30,7 @@ for seed in [1, 2]:
 
     args = [
         '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '10e6',
+        '--num_timesteps', '1e7',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
