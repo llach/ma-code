@@ -8,7 +8,6 @@ from baselines.run import main
 k = 5
 
 
-
 def build_pend_env(args, **kwargs):
     alg = args.alg
     seed = args.seed
@@ -19,9 +18,9 @@ def build_pend_env(args, **kwargs):
     return VecFrameStack(env, k)
 
 
-for seed in [3]:
+for seed in [1, 2, 3]:
     vae_params = {
-        'init_from': 'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02/14'.replace('/', ':'),
+        'init_from': 'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08'.replace('/', ':'),
         'k': k,
         'latent_dim': 5,
         'with_attrs': True,
