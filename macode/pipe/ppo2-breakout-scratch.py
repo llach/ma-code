@@ -8,7 +8,7 @@ from baselines.run import main
 k = 4
 
 
-for tim, rlc in [('1e7', 1500), ('3e7', 30)]:
+for rlc in [0.5]:
     vae_params = {
         'k': k,
         'latent_dim': 20,
@@ -27,7 +27,7 @@ for tim, rlc in [('1e7', 1500), ('3e7', 30)]:
 
     args = [
         '--env', 'BreakoutNoFrameskip-v4',
-        '--num_timesteps', tim,
+        '--num_timesteps', '1e7',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
