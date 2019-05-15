@@ -8,11 +8,12 @@ from baselines.run import main
 k = 4
 
 
-for rlc in [0.5]:
+for rlc in [1, 10]:
     vae_params = {
         'k': k,
         'latent_dim': 20,
         'beta': 1,
+        'scaled_re_loss': False,
     }
 
     def build_pend_env(args, **kwargs):
