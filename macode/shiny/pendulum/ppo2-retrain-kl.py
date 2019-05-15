@@ -52,15 +52,15 @@ def read_keys(_dir, _filter, column_names):
 
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/ppo2-retrain-kl'
+models_dir = f'{home}/.forkan/done/pendulum/ppo2-retrain-kl'
 
-for fi, name in [('', 'beta=1')]:
+for fi, name in [('b1', 'ent'), ('b81', 'one lat'), ('b85', 'two lat')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
 
     xs = data['nupdates'][0]
     ys = data['mean_reward']
 
-    plt.plot(xs, np.nanmedian(ys, axis=0))
+    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
     plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
 
@@ -69,8 +69,9 @@ plt.ylim(bottom=-1300, top=-100)
 plt.title('Model adapted encoder and KL constraint')
 plt.ylabel('Median Reward')
 plt.xlabel('Number of Updates')
+plt.legend()
 
-plt.savefig(f'{home}/.forkan/done/ppo2-retrain-kl/ret-kl.png')
+plt.savefig(f'{models_dir}/ret-kl.png')
 plt.show()
 
 logger.info('Done.')

@@ -21,8 +21,8 @@ plt_shape = [1, 5]
 models_dir = '{}vae-{}/'.format(model_path, network)
 dirs = ls_dir(models_dir)
 
-for fi in ['b1', 'b81', 'b85']:
-# for fi in ['b1']:
+# for fi in ['b1', 'b81', 'b85']:
+for fi in ['b1']:
     for d in dirs:
         ds_name = d.split('/')[-1].split('-')[0]
         model_name = d.split('/')[-1]
@@ -98,7 +98,7 @@ for fi in ['b1', 'b81', 'b85']:
                 plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
                 plt.scatter(thetas, mus[idx], linewidths=0.05, marker=mar)
 
-            plt.legend()
+            # plt.legend()
 
             plt.savefig(f'{figure_path}/theta_traversal_{fi}{mar}.png')
             plt.show()
