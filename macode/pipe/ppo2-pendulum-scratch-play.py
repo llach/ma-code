@@ -6,22 +6,20 @@ from baselines.common.vec_env.vec_frame_stack import VecFrameStack
 from baselines.run import main
 from gym.envs.classic_control import rendering
 
-path = '/Users/llach/.forkan/done/breakout/ppo2-scratch/'
+path = '/Users/llach/.forkan/done/pendulum/ppo2-scratch/'
 
 runs = [
-    'breakout-nenv16-rlc0.5-k4-seed0-modelscratch-b1-2019-05-13T08:35'.replace('/', ':'),
-    'breakout-nenv16-rlc1-k4-seed0-modelscratch-b1-2019-04-27T11/17'.replace('/', ':'),
-    'breakout-nenv16-rlc10-k4-seed0-modelscratch-b1-2019-04-28T11/13'.replace('/', ':'),
+    'pendulumvisual-nenv16-rlc1-k5-stop0.01-seed0-modelscratch-b1-2019-04-23T10/42'.replace('/', ':'),
+    'pendulumvisual-nenv16-rlc10-k5-stop0.01-seed0-modelscratch-b1-2019-04-24T13/58'.replace('/', ':'),
+    'pendulumvisual-nenv16-rlc30-k5-stop0.01-seed0-modelscratch-b1-2019-04-26T02/18'.replace('/', ':'),
 ]
 
-k = 4
+k = 5
 
 vae_params = {
     'k': k,
-    'latent_dim': 20,
+    'latent_dim': 5,
     'beta': 1,
-    'with_attrs': True,
-    'scaled_re_loss': False,
 }
 
 def build_pend_env(args, **kwargs):
@@ -29,24 +27,24 @@ def build_pend_env(args, **kwargs):
     seed = args.seed
 
     flatten_dict_observations = alg not in {'her'}
-    env = make_vec_env(args.env, 'atari', args.num_env or 1, seed, reward_scale=args.reward_scale,
+    env = make_vec_env(args.env, 'classic_control', args.num_env or 1, seed, reward_scale=args.reward_scale,
                        flatten_dict_observations=flatten_dict_observations)
     return VecFrameStack(env, k)
 
 
 args = [
-    '--env', 'BreakoutNoFrameskip-v4',
+    '--env', 'PendulumVisual-v0',
     '--alg', 'ppo2',
     '--network', 'mlp',
-    '--v_net', 'atari',
+    '--v_net', 'pendulum',
     '--seed', str(0),
     '--k', str(k),
-    '--load_path', f'{path}{runs[0]}',
+    '--load_path', f'{path}{runs[2]}',
     '--play', 'True',
 ]
 
 model, env = main(args, build_fn=build_pend_env, vae_params=vae_params, just_return=True)
-# exit(0)
+
 obs = env.reset()
 d = False
 
@@ -55,14 +53,14 @@ print('playing policy')
 viewer = rendering.SimpleImageViewer()
 
 t = 0
-
 import matplotlib.pyplot as plt
 
 def smooth(l):
     l = np.squeeze(np.asarray(l, np.float32))
-    N = 40
+    N = 20
     return np.convolve(l, np.ones((N,)) / N, mode='valid')
     # return medfilt(np.asarray(l, dtype=np.float32), 51)
+
 
 vals, recs, dkls, vls = [], [], [], []
 
@@ -94,7 +92,7 @@ while num_ep < 3:
             plt.plot(smooth(p))
             plt.title(n)
             plt.show()
-            p = []
+            # p = []
 
         num_ep += 1
         print(f'beginning episode {num_ep} at {t}')
