@@ -35,6 +35,7 @@ args = [
     '--tensorboard', 'True',
     '--rl_coef', str(10),
     '--k', str(k),
+    '--log_interval', '1',
 ]
 
 main(args, build_fn=build_pend_env, vae_params=vae_params)
