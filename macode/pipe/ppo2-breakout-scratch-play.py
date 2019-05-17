@@ -21,7 +21,6 @@ vae_params = {
     'latent_dim': 20,
     'beta': 1,
     'with_attrs': True,
-    'scaled_re_loss': False,
 }
 
 def build_pend_env(args, **kwargs):
@@ -52,7 +51,7 @@ d = False
 
 print('playing policy')
 
-viewer = rendering.SimpleImageViewer()
+# viewer = rendering.SimpleImageViewer()
 
 t = 0
 
@@ -67,34 +66,60 @@ def smooth(l):
 vals, recs, dkls, vls = [], [], [], []
 
 num_ep = 0
+m_rec = None
+
+img_buffer = []
+
 while num_ep < 3:
 
     (actions, xhat, vf, dkl, recon, vl), x = model.step_xhat(obs)
+
+    recs.append(np.mean(recon))
 
     img = imresize(np.squeeze(x)[-1], (230, 160))
     rec = imresize(np.squeeze(xhat)[-1], (230, 160))
 
     vals.append(vf)
-    recs.append(np.mean(recon))
     dkls.append(np.sum(dkl))
     vls.append(vl)
 
-    print(len(recon), len(dkl))
 
     shw = np.stack((np.concatenate((img, rec), axis=1),)*3, axis=-1)
-    viewer.imshow(np.asarray(shw, dtype=np.uint8))
-    print((np.mean(recon)), np.mean(dkl))
+    # viewer.imshow(np.asarray(shw, dtype=np.uint8))
+    img_buffer.append(shw)
+
     obs, _, done, _ = env.step(actions)
     d = done.any() if isinstance(done, np.ndarray) else done
     t += 1
     if d:
         obs = env.reset()
+        m_rec = np.median(recs)
 
-        for (p, n) in [(vals, f'vals{num_ep}'), (recs, f'recs{num_ep}'), (dkls, f'dkls{num_ep}'),  (vls, f'VAE loss {num_ep}')]:
-            plt.plot(smooth(p))
-            plt.title(n)
-            plt.show()
-            p = []
+        # for (p, n) in [(vals, f'vals{num_ep}'), (dkls, f'dkls{num_ep}'),  (vls, f'VAE loss {num_ep}')]:
+        #     p = p[5:]
+        #     plt.plot(p)
+        #     plt.title(n)
+        #     plt.show()
+        #     p = []
+
+        plt.plot(smooth(recs))
+        plt.title(f'reconstruction loss {num_ep}')
+        plt.axhline(y=m_rec)
+        plt.show()
+
+        # img_buffer = []
+        # recs = []
 
         num_ep += 1
         print(f'beginning episode {num_ep} at {t}')
+
+recs = recs[5:]
+# recs = smooth(recs)
+
+img_buffer = np.asarray(img_buffer, dtype=np.uint8)[5:]
+greater = img_buffer[recs > m_rec][-50:]
+
+for i in range(greater.shape[0]):
+    plt.imshow(greater[i])
+    plt.show()
+# viewer.close()
