@@ -74,6 +74,7 @@ for rl_coef in [30]:
             '--collect_until', '4e5',
             '--rl_coef', str(rl_coef),
             '--k', str(k),
+            '--log_interval', '1',
         ]
 
         main(args, build_fn=build_pend_env, vae_params=vae_params)
