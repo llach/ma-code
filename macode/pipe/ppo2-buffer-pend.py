@@ -7,7 +7,7 @@ from baselines.run import main
 
 k = 5
 
-for rl_coef in [30]:
+for rl_coef in [10,30]:
     for es in ['True', 'False']:
         vae_params = {
             'k': k,
