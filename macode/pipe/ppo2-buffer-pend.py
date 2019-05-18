@@ -72,10 +72,12 @@ for rl_coef in [30]:
             '--num_env', '16',
             '--seed', '0',
             '--tensorboard', 'True',
-            '--collect_until', '4e5',
+            '--collect_until', '10e6',
             '--rl_coef', str(rl_coef),
             '--k', str(k),
             '--log_interval', '1',
+            '--target_kl', '0.01',
+            '--early_stop', 'True',
         ]
 
         main(args, build_fn=build_pend_env, vae_params=vae_params)
