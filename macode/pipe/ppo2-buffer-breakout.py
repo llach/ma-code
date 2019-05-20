@@ -8,7 +8,7 @@ from baselines.run import main
 k = 4
 
 
-for rlc in [1, 10]:
+for rlc in [10, 1]:
     vae_params = {
         'k': k,
         'latent_dim': 20,
@@ -35,6 +35,10 @@ for rlc in [1, 10]:
         '--noptepochs', '10',
         '--num_env', '16',
         '--v_net', 'atari',
+        '--collect_until', '1e6',
+        '--vae_buffer_size', '5e4',
+        '--vae_batch_size', '1024',
+        '--vae_batches_per_epoch', '20',
         '--seed', str(0),
         '--k', str(k),
         '--rl_coef', str(rlc),
