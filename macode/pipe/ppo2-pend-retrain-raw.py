@@ -7,6 +7,10 @@ from baselines.run import main
 
 k = 5
 
+vae_names = [
+    'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08'
+]
+
 def build_pend_env(args, **kwargs):
     alg = args.alg
     seed = args.seed
@@ -18,30 +22,33 @@ def build_pend_env(args, **kwargs):
 
 
 for seed in [1, 2, 3]:
-    vae_params = {
-        'init_from': 'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08'.replace('/', ':'),
-        'k': k,
-        'latent_dim': 5,
-        'with_attrs': True,
-    }
+    for vn in vae_names:
+        vae_params = {
+            'init_from': vn.replace('/', ':'),
+            'k': k,
+            'latent_dim': 5,
+            'with_attrs': True,
+        }
 
-    args = [
-        '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '10e6',
-        '--alg', 'ppo2',
-        '--network', 'mlp',
-        '--log_interval', '2',
-        '--nminibatches', '32',
-        '--noptepochs', '10',
-        '--num_env', '16',
-        '--seed', str(seed),
-        '--tensorboard', 'True',
-        '--k', str(k),
-        '--log_weights', 'True',
-    ]
+        args = [
+            '--env', 'PendulumVisual-v0',
+            '--num_timesteps', '10e6',
+            '--alg', 'ppo2',
+            '--network', 'mlp',
+            '--log_interval', '2',
+            '--nminibatches', '32',
+            '--noptepochs', '10',
+            '--num_env', '16',
+            '--seed', str(seed),
+            '--tensorboard', 'True',
+            '--k', str(k),
+            '--log_weights', 'True',
+            '--target_kl', '0.01',
+            '--early_stop', 'True',
+        ]
 
-    main(args, build_fn=build_pend_env, vae_params=vae_params)
-    s = get_session()
-    s.close()
-    tf.reset_default_graph()
-    print('done')
+        main(args, build_fn=build_pend_env, vae_params=vae_params)
+        s = get_session()
+        s.close()
+        tf.reset_default_graph()
+        print('done')
