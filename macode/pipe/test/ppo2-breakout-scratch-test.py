@@ -8,7 +8,7 @@ from baselines.run import main
 k = 4
 
 
-for rlc in [1, 10]:
+for rlc in [1]:
     vae_params = {
         'k': k,
         'latent_dim': 20,
@@ -27,12 +27,12 @@ for rlc in [1, 10]:
 
     args = [
         '--env', 'BreakoutNoFrameskip-v4',
-        '--num_timesteps', '1e7',
+        '--num_timesteps', '2e6',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
         '--nminibatches', '2',
-        '--noptepochs', '1',
+        '--noptepochs', '2',
         '--nsteps', '32',
         '--num_env', '2',
         '--v_net', 'atari',
@@ -40,7 +40,6 @@ for rlc in [1, 10]:
         '--k', str(k),
         '--rl_coef', str(rlc),
         '--tensorboard', 'True',
-        '--log_weights', 'True',
     ]
 
     main(args, build_fn=build_pend_env, vae_params=vae_params)
