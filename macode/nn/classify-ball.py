@@ -9,12 +9,10 @@ vae_set = 'breakout-b1.0-lat20-lr0.0001'
 
 for neurons in [1024, 512, 128, 32]:
 
-    classify_ball(retrain_set, mlp_neurons=neurons)
-    s = get_session()
-    s.close()
+    classify_ball(retrain_set, mlp_neurons=neurons, epochs=1)
+    get_session().close()
     tf.reset_default_graph()
 
-    classify_ball()
-    s = get_session()
-    s.close()
-    tf.reset_default_graph(vae_set, mlp_neurons=neurons)
+    classify_ball(vae_set, mlp_neurons=neurons, epochs=1)
+    get_session().close()
+    tf.reset_default_graph()
