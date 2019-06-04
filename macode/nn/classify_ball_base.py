@@ -14,7 +14,7 @@ from forkan.common.tf_utils import scalar_summary
 from forkan import dataset_path
 
 
-def classify_ball(ds_path, mlp_neurons=16, val_split=0.2):
+def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs=100):
 
     dataset_prefix = 'ball_latents_'
     ds = np.load(f'{dataset_path}{dataset_prefix}{ds_path}.npz')
@@ -110,6 +110,6 @@ def classify_ball(ds_path, mlp_neurons=16, val_split=0.2):
 
             self.fw.add_summary(img_sum, self.step)
 
-    model.fit(lats[idxes][:split_idx], poss[idxes][:split_idx], epochs=100, batch_size=32,
+    model.fit(lats[idxes][:split_idx], poss[idxes][:split_idx], epochs=epochs, batch_size=batch_size,
               validation_data=(lats[idxes][split_idx:], poss[idxes][split_idx:]), callbacks=[TBCB(model, orgs[idxes][split_idx:])])
 
