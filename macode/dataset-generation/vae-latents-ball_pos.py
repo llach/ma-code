@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import tensorflow as tf
 
@@ -8,7 +9,8 @@ from gym.envs.classic_control import rendering
 from forkan.models import VAE
 from forkan import dataset_path
 
-policy_path = '/Users/llach/.forkan/done/stock-models/breakout-ppo/'
+home = os.environ['HOME']
+policy_path = f'{home}/.forkan/done/stock-models/breakout-ppo/'
 vae_name = 'breakout-b1.0-lat20-lr0.0001-2019-04-20T18:00'
 
 k = 4

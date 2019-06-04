@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import tensorflow as tf
 
@@ -8,8 +9,9 @@ from gym.envs.classic_control import rendering
 from forkan.models import RetrainVAE
 from forkan import dataset_path
 
-policy_path = '/Users/llach/.forkan/done/stock-models/breakout-ppo/'
-vae_path = '/Users/llach/.forkan/done/breakout/ppo2-scratch/'
+home = os.environ['HOME']
+policy_path = f'{home}/.forkan/done/stock-models/breakout-ppo/'
+vae_path = f'{home}/.forkan/done/breakout/ppo2-scratch/'
 vae_name = 'breakout-nenv16-rlc10000-k4-seed0-modelscratch-b1-2019-05-28T21:30/'
 vae_path += vae_name
 
