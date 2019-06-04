@@ -36,6 +36,8 @@ d = False
 max_t = 1e5
 
 t = 0
+last_t = 0
+max_t_ep = 2000
 num_ep = 0
 
 # buffers to be saved
@@ -66,7 +68,8 @@ while True:
 
     t += 1
 
-    if done:
+    if (t - last_t) >= max_t_ep or done:
+        last_t = t
         print(f'episode {num_ep} done at {t}; passing buffer into vae ...')
 
         mu_t, logv_t, z_t = v.encode_and_sample(np.asarray(preprocessed_frames, dtype=np.float32))
