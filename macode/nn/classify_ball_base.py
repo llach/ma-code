@@ -37,13 +37,17 @@ def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs
     np.random.shuffle(idxes)
     split_idx = int(lats.shape[0]*(1-val_split))
 
-    def draw_predicted_balls(imgs, locations):
+    def draw_predicted_balls(imgs, locations, real_loc):
         imgs = imgs.copy()
 
         for n, img in enumerate(imgs):
             for j in [-1, 0, 1]:
                 for i in [-1, 0, 1]:
                     x, y = np.clip(int((locations[n, 0]*210)+j), 0, 209), np.clip(int((locations[n, 1]*160)+i), 0, 159)
+                    img[x, y] = [0, 200, 200]
+
+                    x, y = np.clip(int((real_loc[n, 0] * 210) + j), 0, 209), np.clip(int((real_loc[n, 1] * 160) + i),
+                                                                                      0, 159)
                     img[x, y] = [0, 200, 200]
 
         return np.asarray(imgs, dtype=np.uint8)
@@ -98,7 +102,7 @@ def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs
         def on_epoch_end(self, epoch, logs=None):
             test_idxes = np.random.choice(self.validation_data[0].shape[0]-1, 15, replace=False)
             predicted_locations = model.predict(self.validation_data[0][test_idxes])
-            imgs = draw_predicted_balls(self.ovo[test_idxes], predicted_locations)
+            imgs = draw_predicted_balls(self.ovo[test_idxes], predicted_locations, self.validation_data[1][test_idxes])
 
             r1 = np.concatenate(imgs[0:5], axis=1)
             r2 = np.concatenate(imgs[5:10], axis=1)
