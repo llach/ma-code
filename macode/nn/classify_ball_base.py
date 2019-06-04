@@ -16,6 +16,8 @@ from forkan import dataset_path
 
 def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs=100):
 
+    K.set_session(tf.Session())
+
     dataset_prefix = 'ball_latents_'
     ds = np.load(f'{dataset_path}{dataset_prefix}{ds_path}.npz')
     home = os.environ['HOME']
@@ -117,3 +119,4 @@ def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs
     model.fit(lats[idxes][:split_idx], poss[idxes][:split_idx], epochs=epochs, batch_size=batch_size,
               validation_data=(lats[idxes][split_idx:], poss[idxes][split_idx:]), callbacks=[TBCB(model, orgs[idxes][split_idx:])])
 
+    return None
