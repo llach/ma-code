@@ -9,9 +9,7 @@ from forkan.models import VAE
 from forkan import dataset_path
 
 policy_path = '/Users/llach/.forkan/done/stock-models/breakout-ppo/'
-vae_path = '/Users/llach/.forkan/done/breakout/ppo2-scratch/'
-vae_name = 'breakout-nenv16-rlc10000-k4-seed0-modelscratch-b1-2019-05-28T21:30/'
-vae_path += vae_name
+vae_name = 'breakout-b1.0-lat20-lr0.0001-2019-04-20T18:00'
 
 k = 4
 
@@ -25,15 +23,15 @@ args = [
     '--play', 'True',
 ]
 
+v = VAE(load_from=vae_name, network='atari', with_opt=False, session=tf.Session())
 model, env = main(args, just_return=True)
-v = VAE(vae_path, (84, 84, 1), latent_dim=20, network='atari')
 
 viewer = rendering.SimpleImageViewer()
 
 obs = env.reset()
 d = False
 
-max_t = 1e3
+max_t = 1e5
 
 t = 0
 num_ep = 0
@@ -45,6 +43,7 @@ lat_buf = []
 pos_buf = []
 
 # working buffers for each episode
+raw_frames = []
 preprocessed_frames = []
 
 while True:
@@ -54,6 +53,7 @@ while True:
     img = env.render(mode='rgb_array')
     ball_pos, fimg = ball_pos_from_rgb(img)
 
+    raw_frames.append(img)
     pos_buf.append(ball_pos)
     preprocessed_frames.append(obs_slice/255)
 
@@ -67,12 +67,13 @@ while True:
     if done:
         print(f'episode {num_ep} done at {t}; passing buffer into vae ...')
 
-        mu_t, logv_t = v.encode(np.asarray(preprocessed_frames, dtype=np.float32))
-        rec_buf.append(np.squeeze(v.decode(mu_t, logv_t)))
+        mu_t, logv_t, z_t = v.encode_and_sample(np.asarray(preprocessed_frames, dtype=np.float32))
+        rec_buf.append(np.squeeze(v.decode(z_t)))
 
-        org_buf.append(preprocessed_frames.copy())
+        org_buf.append(raw_frames.copy())
         lat_buf.append(mu_t.copy())
 
+        raw_frames = []
         preprocessed_frames = []
 
         if t > max_t:
@@ -84,6 +85,7 @@ while True:
         env.reset()
         num_ep += 1
         done = False
+
 
 org_buf = np.asarray(np.concatenate(org_buf, axis=0), dtype=np.float32)
 rec_buf = np.asarray(np.concatenate(rec_buf, axis=0), dtype=np.float32)

@@ -35,7 +35,7 @@ viewer = rendering.SimpleImageViewer()
 obs = env.reset()
 d = False
 
-max_t = 1e3
+max_t = 1e5
 
 t = 0
 num_ep = 0
@@ -47,6 +47,7 @@ lat_buf = []
 pos_buf = []
 
 # working buffers for each episode
+raw_frames = []
 preprocessed_frames = []
 
 while True:
@@ -56,6 +57,7 @@ while True:
     img = env.render(mode='rgb_array')
     ball_pos, fimg = ball_pos_from_rgb(img)
 
+    raw_frames.append(img)
     pos_buf.append(ball_pos)
     preprocessed_frames.append(obs_slice/255)
 
@@ -72,9 +74,10 @@ while True:
         mu_t, logv_t = v.encode(np.asarray(preprocessed_frames, dtype=np.float32))
         rec_buf.append(np.squeeze(v.decode(mu_t, logv_t)))
 
-        org_buf.append(preprocessed_frames.copy())
+        org_buf.append(raw_frames.copy())
         lat_buf.append(mu_t.copy())
 
+        raw_frames = []
         preprocessed_frames = []
 
         if t > max_t:
