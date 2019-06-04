@@ -48,7 +48,7 @@ def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs
 
                     x, y = np.clip(int((real_loc[n, 0] * 210) + j), 0, 209), np.clip(int((real_loc[n, 1] * 160) + i),
                                                                                       0, 159)
-                    img[x, y] = [0, 200, 200]
+                    img[x, y] = [200, 0, 200]
 
         return np.asarray(imgs, dtype=np.uint8)
 
