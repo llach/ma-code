@@ -33,7 +33,7 @@ viewer = rendering.SimpleImageViewer()
 obs = env.reset()
 d = False
 
-max_t = 1e5
+max_t = 2e4
 
 t = 0
 last_t = 0
