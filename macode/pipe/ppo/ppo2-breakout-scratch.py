@@ -8,7 +8,7 @@ from baselines.run import main
 k = 4
 
 
-for rlc in [1e4, 5e5, 1e5]:
+for rlc in [5e4, 1e5]:
     vae_params = {
         'k': k,
         'latent_dim': 20,
