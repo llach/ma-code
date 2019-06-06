@@ -14,17 +14,25 @@ from forkan.common.tf_utils import scalar_summary
 from forkan import dataset_path
 
 
-def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs=100, name_prefix='VAE'):
+def classify_ball(ds_path, name_prefix, mlp_neurons=16, val_split=0.2, batch_size=128, epochs=100):
 
     K.set_session(tf.Session())
 
     dataset_prefix = 'ball_latents_'
-    ds = np.load(f'{dataset_path}{dataset_prefix}{ds_path}.npz')
+    ds = np.load(f'{dataset_path}{ds_path}.npz')
     home = os.environ['HOME']
 
     orgs = ds['originals']
-    lats = ds['latents']
     poss = ds['ball_positions']
+
+    if name_prefix == 'VAE':
+        lats = ds['vae_latents']
+    elif name_prefix == 'RETRAIN':
+        lats = ds['latents']
+    else:
+        print(f'name {name_prefix} unknown!')
+        print(0)
+
 
     model = Sequential([
     Dense(mlp_neurons, activation='relu', input_shape=(lats.shape[-1],)),
