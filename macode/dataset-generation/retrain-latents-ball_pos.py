@@ -128,8 +128,8 @@ print(org_buf.shape, lat_buf.shape, vae_lat_buf.shape, pos_buf.shape)
 dataset_name = 'ball_latents_VAE_' + vae_name.split('-2019')[0] + '_POL_' + pol.split('-2019')[0] + '.npz'
 print(f'saving dataset {dataset_name} ...')
 
-# np.savez_compressed(f'{dataset_path}/{dataset_name}',
-#                     originals=org_buf , latents=lat_buf, ball_positions=pos_buf)
+np.savez_compressed(f'{dataset_path}/{dataset_name}',
+                    originals=org_buf, latents=lat_buf, vae_latents=vae_lat_buf, ball_positions=pos_buf)
 
 viewer.close()
 
