@@ -14,7 +14,7 @@ from forkan.common.tf_utils import scalar_summary
 from forkan import dataset_path
 
 
-def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs=100):
+def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs=100, name_prefix='VAE'):
 
     K.set_session(tf.Session())
 
@@ -77,7 +77,7 @@ def classify_ball(ds_path, mlp_neurons=16, val_split=0.2, batch_size=128, epochs
             self.mte_sum = tf.summary.merge(te_sum)
 
             dt = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
-            self.fw = tf.summary.FileWriter(f'{home}/ball/{ds_path}-N{mlp_neurons}-{dt}', graph=sess.graph)
+            self.fw = tf.summary.FileWriter(f'{home}/ball/{name_prefix}-{ds_path}-N{mlp_neurons}-{dt}', graph=sess.graph)
             self.ovo = ovo
             self.step = 0
             self.m = m
