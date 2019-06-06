@@ -8,7 +8,7 @@ from baselines.common.tf_util import get_session
 from gym.envs.classic_control import rendering
 
 path = '/Users/llach/.forkan/done/breakout/ppo2-scratch/'
-path = '/Users/llach/.forkan/models/ppo2/'
+# path = '/Users/llach/.forkan/models/ppo2/'
 
 runs = [
     'breakout-nenv16-rlc1-k4-seed0-modelscratch-b1-2019-05-28T16:40',
@@ -76,7 +76,7 @@ while num_ep < 3:
     vf_grad *= (1 / (np.abs(np.min(vf_grad)) + np.max(vf_grad)))
 
     lob = np.repeat(lob, 3, axis=-1)
-    lob[..., -1] += np.where(vf_grad > np.mean(vf_grad), vf_grad, np.zeros_like(vf_grad))
+    lob[..., -1] += np.where(vf_grad > np.mean(vf_grad)*1.1, vf_grad, np.zeros_like(vf_grad))
 
     viewer.imshow(imresize(np.asarray(lob*255, dtype=np.uint8), (460, 320, 3)))
 
