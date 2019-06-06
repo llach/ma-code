@@ -15,6 +15,7 @@ runs = [
     'breakout-nenv16-rlc10-k4-seed0-modelscratch-b1-2019-05-29T02:24',
     'breakout-nenv16-rlc1000-k4-seed0-modelscratch-b1-2019-05-29T07:19',
     'breakout-nenv16-rlc10000-k4-seed0-modelscratch-b1-2019-05-28T21:30',
+    'breakout-nenv16-rlc10000.0-k4-seed0-modelscratch-b1-2019-06-05T10:48',
 ]
 
 k = 4
@@ -41,7 +42,7 @@ args = [
     '--alg', 'ppo2',
     '--network', 'mlp',
     '--v_net', 'atari',
-    '--seed', str(0),
+    # '--seed', str(0),
     '--k', str(k),
     '--load_path', f'{path}{runs[-1]}',
     '--play', 'True',
