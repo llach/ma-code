@@ -28,7 +28,7 @@ def classify_ball(ds_path, name_prefix, mlp_neurons=16, val_split=0.2, batch_siz
     poss = ds['ball_positions']
 
     dt = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
-    model_name = f'{name_prefix}-{ds_path}-N{mlp_neurons}-{dt}'
+    model_name = f'{name_prefix}-N{mlp_neurons}-{ds_path}-{dt}'
 
     model_save_path = f'{model_path}classify-ball/{model_name}'
     create_dir(model_save_path)
