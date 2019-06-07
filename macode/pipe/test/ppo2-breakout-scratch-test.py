@@ -35,6 +35,7 @@ for rlc in [1]:
         '--noptepochs', '2',
         '--nsteps', '32',
         '--num_env', '2',
+        '--alpha', '1e-3',
         '--v_net', 'atari',
         '--seed', str(0),
         '--k', str(k),
