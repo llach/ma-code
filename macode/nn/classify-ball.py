@@ -6,7 +6,7 @@ from macode.nn.classify_ball_base import classify_ball
 dataset_name = 'ball_latents_VAE_breakout-b1.0-lat20-lr0.0001_POL_breakout-nenv16-rlc10000.0-k4-seed0-modelscratch-b1'
 
 
-for neurons in [16, 8, 4]:
+for neurons in [128]:
 
     classify_ball(dataset_name, 'RETRAIN', mlp_neurons=neurons)
     get_session().close()

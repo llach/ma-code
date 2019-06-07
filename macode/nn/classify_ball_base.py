@@ -8,10 +8,12 @@ from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.callbacks import Callback
 
+from forkan.common.utils import create_dir
+from forkan.common.csv_logger import CSVLogger
 from forkan.common.tf_utils import scalar_summary
 
 
-from forkan import dataset_path
+from forkan import dataset_path, model_path
 
 
 def classify_ball(ds_path, name_prefix, mlp_neurons=16, val_split=0.2, batch_size=128, epochs=100):
@@ -24,6 +26,15 @@ def classify_ball(ds_path, name_prefix, mlp_neurons=16, val_split=0.2, batch_siz
 
     orgs = ds['originals']
     poss = ds['ball_positions']
+
+    dt = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
+    model_name = f'{name_prefix}-{ds_path}-N{mlp_neurons}-{dt}'
+
+    model_save_path = f'{model_path}classify-ball/{model_name}'
+    create_dir(model_save_path)
+
+    csv = CSVLogger(f'{model_save_path}/progress.csv', *['timestamp', 'nbatch', 'mae_train',
+                                                         'mse_train', 'mae_test', 'mse_test'])
 
     if name_prefix == 'VAE':
         lats = ds['vae_latents']
@@ -84,8 +95,7 @@ def classify_ball(ds_path, name_prefix, mlp_neurons=16, val_split=0.2, batch_siz
             self.mtr_sum = tf.summary.merge(tr_sum)
             self.mte_sum = tf.summary.merge(te_sum)
 
-            dt = datetime.datetime.now().strftime('%Y-%m-%dT%H:%M')
-            self.fw = tf.summary.FileWriter(f'{home}/ball/{name_prefix}-{ds_path}-N{mlp_neurons}-{dt}', graph=sess.graph)
+            self.fw = tf.summary.FileWriter(f'{home}/ball/{model_name}', graph=sess.graph)
             self.ovo = ovo
             self.step = 0
             self.m = m
@@ -105,6 +115,15 @@ def classify_ball(ds_path, name_prefix, mlp_neurons=16, val_split=0.2, batch_siz
                 self.val_mse_ph: val_mse_t,
                 self.val_mae_ph: val_mae_t,
             })
+
+            csv.writeline(
+                datetime.datetime.now().isoformat(),
+                self.step,
+                mae_t,
+                mse_t,
+                val_mae_t,
+                val_mse_t,
+            )
 
             self.fw.add_summary(su, self.step)
             self.fw.add_summary(se, self.step)
@@ -126,5 +145,9 @@ def classify_ball(ds_path, name_prefix, mlp_neurons=16, val_split=0.2, batch_siz
 
     model.fit(lats[idxes][:split_idx], poss[idxes][:split_idx], epochs=epochs, batch_size=batch_size,
               validation_data=(lats[idxes][split_idx:], poss[idxes][split_idx:]), callbacks=[TBCB(model, orgs[idxes][split_idx:])])
+
+    model.save_weights(f'{model_save_path}/weights.h5')
+    csv.flush()
+    del csv
 
     return None
