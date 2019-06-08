@@ -7,7 +7,7 @@ from baselines.run import main
 
 k = 4
 
-for alpha in [1e-3, 1e-2, 1e-1]:
+for alpha in [1e-5, 1e-10]:
     vae_params = {
         'k': k,
         'latent_dim': 20,
