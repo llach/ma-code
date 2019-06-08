@@ -50,8 +50,12 @@ def read_keys(_dir, _filter, column_names):
 
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/models/classify-ball/'
+models_dir = f'{home}/.forkan/done/classify-ball/'
 
+def smooth(l, N=1000):
+    l = np.asarray(l, np.float32)
+    return np.convolve(l, np.ones((N,)) / N, mode='valid')
+    # return medfilt(np.asarray(l, dtype=np.float32), 51)
 
 fig, ax = plt.subplots(2, 2, figsize=(10, 10))
 
@@ -73,51 +77,51 @@ vae_nbatch = np.squeeze(data['nbatch'])
 
 ax[0, 0].set_title('TRAIN')
 
-ax[0, 0].plot(ret_nbatch, vae_mae_train, label='VAE')
-ax[0, 0].plot(ret_nbatch, ret_mae_train, label='SCRATCH')
+ax[0, 0].plot(smooth(vae_mae_train, 10), label='VAE')
+ax[0, 0].plot(smooth(ret_mae_train, 10), label='SCRATCH')
 
 ax[0, 0].set_ylabel('Mean Absolute Error')
 ax[0, 0].set_xlabel('Number of Updates')
 
 ax[0, 0].legend()
-ax[0, 0].set_ylim(bottom=0.12, top=0.26)
+# ax[0, 0].set_ylim(bottom=0.12, top=0.26)
 
 
-ax[0, 1].plot(ret_nbatch, vae_mse_train, label='VAE')
-ax[0, 1].plot(ret_nbatch, ret_mse_train, label='SCRATCH')
+ax[0, 1].plot(smooth(vae_mse_train, 10), label='VAE')
+ax[0, 1].plot(smooth(ret_mse_train, 10), label='SCRATCH')
 
 ax[0, 1].set_ylabel('Mean Squared Error')
 ax[0, 1].set_xlabel('Number of Updates')
 
-ax[0, 1].set_ylim(bottom=0.04, top=0.1)
+# ax[0, 1].set_ylim(bottom=0.04, top=0.1)
 
 ax[0, 1].legend()
 
 
 ax[1, 0].set_title('TEST')
 
-ax[1, 0].plot(vae_nbatch, vae_mae_test, label='VAE')
-ax[1, 0].plot(vae_nbatch, ret_mae_test, label='SCRATCH')
+ax[1, 0].plot(smooth(vae_mae_test, 10), label='VAE')
+ax[1, 0].plot(smooth(ret_mae_test, 10), label='SCRATCH')
 
 ax[1, 0].set_ylabel('Mean Absolute Error')
 ax[1, 0].set_xlabel('Number of Updates')
 
 ax[1, 0].legend()
-ax[1, 0].set_ylim(bottom=0.12, top=0.26)
+# ax[1, 0].set_ylim(bottom=0.12, top=0.26)
 
-ax[1, 1].plot(vae_nbatch, vae_mse_test, label='VAE')
-ax[1, 1].plot(vae_nbatch, ret_mse_test, label='SCRATCH')
+ax[1, 1].plot(smooth(vae_mse_test, 10), label='VAE')
+ax[1, 1].plot(smooth(ret_mse_test, 10), label='SCRATCH')
 
 ax[1, 1].set_ylabel('Mean Squared Error')
 ax[1, 1].set_xlabel('Number of Updates')
 
 ax[1, 1].legend()
-ax[1, 1].set_ylim(bottom=0.0, top=0.1)
+# ax[1, 1].set_ylim(bottom=0.0, top=0.1)
+
+fig.suptitle('MAE & MSE for joint & static models')
+fig.tight_layout()
 
 plt.savefig(f'{home}/ball.png')
 plt.show()
-
-fig.tight_layout()
-fig.suptitle('MAE & MSE for joint & static models')
 
 logger.info('Done.')
