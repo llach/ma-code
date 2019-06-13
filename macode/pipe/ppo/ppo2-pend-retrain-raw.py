@@ -44,9 +44,7 @@ for vn in vae_names:
         '--seed', str(0),
         '--tensorboard', 'True',
         '--k', str(k),
-        '--log_weights', 'True',
-        '--target_kl', '0.01',
-        '--early_stop', 'True',
+        '--early_stop', 'False',
         '--plot_thetas', 'True',
     ]
 
