@@ -41,7 +41,7 @@ for vn in vae_names:
         '--nminibatches', '32',
         '--noptepochs', '10',
         '--num_env', '16',
-        '--seed', str(seed),
+        '--seed', str(0),
         '--tensorboard', 'True',
         '--k', str(k),
         '--log_weights', 'True',
