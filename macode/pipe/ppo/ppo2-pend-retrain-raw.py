@@ -8,9 +8,9 @@ from baselines.run import main
 k = 5
 
 vae_names = [
-    # 'pendvisualuniform-b1-lat5-lr0.001-2019-04-08T22/04',
-    # 'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02/14',
-    'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08',
+    'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02/14',
+    'pendvisualuniform-b1-lat5-lr0.001-2019-04-08T22/04',
+    # 'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08',
 ]
 
 def build_pend_env(args, **kwargs):
