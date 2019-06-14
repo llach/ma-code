@@ -43,6 +43,7 @@ for rl_coef in [30, 10]:
             '--tensorboard', 'True',
             '--rl_coef', str(rl_coef),
             '--k', str(k),
+            '--plot_thetas', 'True',
             '--target_kl', '0.01',
             '--early_stop', es,
         ]
