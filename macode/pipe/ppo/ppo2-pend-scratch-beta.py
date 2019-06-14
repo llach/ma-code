@@ -7,7 +7,7 @@ from baselines.run import main
 
 k = 5
 
-for bet in [5, 30, 60]:
+for bet in [5, 2, 20, 30]:
     vae_params = {
         'k': k,
         'latent_dim': 5,
@@ -36,6 +36,7 @@ for bet in [5, 30, 60]:
         '--plot_thetas', 'True',
         '--tensorboard', 'True',
         '--k', str(k),
+        '--rl_coef', str(30),
         '--target_kl', '0.01',
         '--early_stop', 'True',
     ]
