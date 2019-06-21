@@ -1,87 +1,48 @@
-import csv
 import logging
 import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns;
 
-from forkan.common.utils import ls_dir
+from forkan.common.utils import read_keys, setup_plotting, get_figure_size
 
-sns.set()
 
 logger = logging.getLogger(__name__)
 
-
-def read_keys(_dir, _filter, column_names):
-
-    data = {}
-    for cn in column_names:
-        data.update({cn: []})
-
-    dirs = ls_dir(_dir)
-    for d in dirs:
-        model_name = d.split('/')[-1]
-        run_data = {}
-        for cn in column_names:
-            run_data.update({cn: []})
-
-        if _filter is not None and not '':
-            if _filter not in model_name:
-                logger.info(f'skipping {model_name} | no match with {_filter}')
-                continue
-
-        if not os.path.isfile('{}/progress.csv'.format(d)):
-            logger.info('skipping {} | file not found'.format(model_name))
-            continue
-
-        dic = csv.DictReader(open(f'{d}/progress.csv'))
-        for cn in column_names:
-            assert cn in dic.fieldnames, f'{cn} not in {dic.fieldnames}'
-
-        for row in dic:
-            for cn in column_names:
-                run_data[cn].append(row[cn])
-
-        for cn in column_names:
-            data[cn].append(run_data[cn])
-
-    for cn in column_names:
-        data[cn] = np.asarray(data[cn], dtype=np.float32)
-    return data
-
+ylims, tick_setup = setup_plotting()
+fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/ppo2-scratch'
+models_dir = f'{home}/.forkan/done/pendulum/ppo2-scratch'
 
-for fi, name in [('rlc1-k5-seed0', 'kappa=1'), ('rlc10-k5-seed0', 'kappa=10'), ('rlc30-k5-seed0', 'kappa=30')]:
-    data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
+# for fi, name in [('rlc1-k5-seed0', 'kappa=1'), ('rlc10-k5-seed0', 'kappa=10'), ('rlc30-k5-seed0', 'kappa=30')]:
+#     data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
+#
+#     xs = data['nupdates'][0]
+#     ys = data['mean_reward']
+#
+#     plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
+#     plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
+#
+#
+# plt.ylim(bottom=-1300, top=-100)
+#
+# plt.title('Training from scratch with different kappa')
+# plt.ylabel('Median Reward')
+# plt.xlabel('Number of Updates')
+#
+# plt.legend()
+#
+# plt.savefig(f'{home}/.forkan/done/ppo2-scratch/kappa-nostop.pdf')
+# plt.show()
 
-    xs = data['nupdates'][0]
-    ys = data['mean_reward']
+# logger.info('second now --------------------------')
 
-    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
-    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
-
-
-plt.ylim(bottom=-1300, top=-100)
-
-plt.title('Training from scratch with different kappa')
-plt.ylabel('Median Reward')
-plt.xlabel('Number of Updates')
-
-plt.legend()
-
-plt.savefig(f'{home}/.forkan/done/ppo2-scratch/kappa-nostop.png')
-plt.show()
-
-logger.info('second now --------------------------')
-
-for fi, name in [('rlc1-k5-seed0', 'kappa=1'), ('rlc10-k5-seed0', 'kappa=10'), ('rlc30-k5-seed0', 'kappa=30')]:
+for fi, name in [('rlc1-k5-seed0', '$\\kappa=1$'), ('rlc10-k5-seed0', '$\\kappa=10$'), ('rlc30-k5-seed0', '$\\kappa=30$')]:
     fi = fi.replace('seed0', 'stop')
-    data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
+    data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
-    xs = data['nupdates'][0]
+    xs = data['total_timesteps'][0]
     ys = data['mean_reward']
 
     plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
@@ -90,13 +51,16 @@ for fi, name in [('rlc1-k5-seed0', 'kappa=1'), ('rlc10-k5-seed0', 'kappa=10'), (
 
 plt.ylim(bottom=-1300, top=-100)
 
-plt.title('Training from scratch with different kappa and KL constraint')
-plt.ylabel('Median Reward')
-plt.xlabel('Number of Updates')
+plt.ylim(**ylims)
 
-plt.legend()
+ax.set_ylabel('Median Reward')
+ax.set_xlabel('Steps')
+plt.xticks(tick_setup[0], tick_setup[1])
+ax.legend(loc='center right')
 
-plt.savefig(f'{home}/.forkan/done/ppo2-scratch/kappa-stop.png')
+fig.tight_layout()
+
+plt.savefig(f'{home}/.forkan/done/pendulum/ppo2-scratch/kappa-stop.pdf')
 plt.show()
 
 logger.info('Done.')

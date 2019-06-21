@@ -107,7 +107,7 @@ for fi in ['b1', 'b81', 'b85']:
         fig.tight_layout()
         plt.legend()
 
-        plt.savefig(f'{figure_path}/theta_traversal_{fi}.png')
+        plt.savefig(f'{figure_path}/theta_traversal_{fi}.pdf')
         plt.show()
 
     tf.reset_default_graph()

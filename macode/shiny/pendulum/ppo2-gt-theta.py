@@ -44,7 +44,7 @@ ax.legend(loc='center right')
 
 fig.tight_layout()
 
-plt.savefig(f'{home}/.forkan/done/pendulum/ppo2-gt-theta/ground-theta.png')
+plt.savefig(f'{home}/.forkan/done/pendulum/ppo2-gt-theta/ground-theta.pdf')
 plt.show()
 
 logger.info('Done.')

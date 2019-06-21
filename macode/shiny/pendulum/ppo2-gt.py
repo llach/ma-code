@@ -33,7 +33,7 @@ plt.xticks(tick_setup[0], tick_setup[1])
 
 fig.tight_layout()
 
-plt.savefig(f'{home}/.forkan/done/pendulum/ppo2-gt/ground.png')
+plt.savefig(f'{home}/.forkan/done/pendulum/ppo2-gt/ground.pdf')
 plt.show()
 
 logger.info('Done.')

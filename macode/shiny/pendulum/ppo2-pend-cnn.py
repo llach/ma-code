@@ -71,7 +71,7 @@ plt.ylabel('Median Reward')
 plt.xlabel('Number of Updates')
 plt.legend()
 
-plt.savefig(f'{models_dir}/cnn.png')
+plt.savefig(f'{models_dir}/cnn.pdf')
 plt.show()
 
 logger.info('Done.')
