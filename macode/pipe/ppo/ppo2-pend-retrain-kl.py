@@ -29,7 +29,7 @@ for seed in [1, 2, 3]:
 
     args = [
         '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '1e7',
+        '--num_timesteps', '3e6',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
