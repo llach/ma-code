@@ -37,6 +37,7 @@ for seed in [1, 2, 3]:
         '--noptepochs', '10',
         '--num_env', '16',
         '--rl_coef', str(30),
+        '--plot_thetas', 'True',
         '--seed', str(seed),
         '--tensorboard', 'True',
         '--k', str(k),
