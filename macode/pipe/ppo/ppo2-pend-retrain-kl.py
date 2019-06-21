@@ -17,10 +17,15 @@ def build_pend_env(args, **kwargs):
                        flatten_dict_observations=flatten_dict_observations)
     return VecFrameStack(env, k)
 
+vae_names = [
+    'pendvisualuniform-b1-lat5-lr0.001-2019-04-08T22/04'.replace('/', ':'),
+    'pendvisualuniform-b85.63-lat5-lr0.001-2019-04-06T02/14'.replace('/', ':'),
+    # 'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08'.replace('/', ':'),
+]
 
-for seed in [1, 2, 3]:
+for vn in vae_names:
     vae_params = {
-        'init_from': 'pendvisualuniform-b81.0-lat5-lr0.001-2019-04-04T15/08'.replace('/', ':'),
+        'init_from': vn,
         'k': k,
         'latent_dim': 5,
         'with_attrs': True,
@@ -38,7 +43,7 @@ for seed in [1, 2, 3]:
         '--num_env', '16',
         '--rl_coef', str(30),
         '--plot_thetas', 'True',
-        '--seed', str(seed),
+        '--seed', str(0),
         '--tensorboard', 'True',
         '--k', str(k),
     ]
