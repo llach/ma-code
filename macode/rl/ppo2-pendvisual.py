@@ -26,7 +26,7 @@ for lat in [16, 32, 64, 128, 256, 512, 1024]:
         '--network', 'cnn_pend',
         '--nminibatches', '32',
         '--noptepochs', '10',
-        '--num_env', '8',
+        '--num_env', '16',
         '--log_interval', '2',
         '--seed', '0',
         '--tensorboard', 'True',
