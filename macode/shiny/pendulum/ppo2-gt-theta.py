@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns;
 
-from forkan.common.utils import ls_dir
+from forkan.common.utils import ls_dir, setup_plotting, get_figure_size
 
 sns.set()
 
@@ -51,25 +51,42 @@ def read_keys(_dir, _filter, column_names):
     return data
 
 
+ylims, tick_setup = setup_plotting()
+fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
+
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/ppo2-gt-theta'
+models_dir = f'{home}/.forkan/done/pendulum/ppo2-gt'
 
-for fi, name in [('', 'beta=1')]:
-    data = read_keys(models_dir, fi, ['mean_reward', 'nupdates'])
+for fi, name in [('', 'with $\omega_t$')]:
+    data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
-    xs = data['nupdates'][0]
+    xs = data['total_timesteps'][0]
     ys = data['mean_reward']
 
-    plt.plot(xs, np.nanmedian(ys, axis=0))
-    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
+    ax.plot(xs, np.nanmedian(ys, axis=0), label=name)
+    ax.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
+
+models_dir = f'{home}/.forkan/done/pendulum/ppo2-gt-theta'
+for fi, name in [('', 'without $\omega_t$')]:
+    data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
+
+    xs = data['total_timesteps'][0]
+    ys = data['mean_reward']
+
+    ax.plot(xs, np.nanmedian(ys, axis=0), label=name)
+    ax.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
 
-plt.ylim(bottom=-1300, top=-100)
-plt.title('Training on ground truth data with omega')
-plt.ylabel('Median Reward')
-plt.xlabel('Number of Updates')
+plt.ylim(**ylims)
 
-plt.savefig(f'{home}/.forkan/done/ppo2-gt-theta/ground-theta.png')
+ax.set_ylabel('Median Reward')
+ax.set_xlabel('Steps')
+plt.xticks(tick_setup[0], tick_setup[1])
+ax.legend(loc='center right')
+
+fig.tight_layout()
+
+plt.savefig(f'{home}/.forkan/done/pendulum/ppo2-gt-theta/ground-theta.png')
 plt.show()
 
 logger.info('Done.')

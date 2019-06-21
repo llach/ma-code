@@ -48,7 +48,7 @@ def read_keys(_dir, _filter, column_names):
     return data
 
 
-setup_plotting()
+ylims = setup_plotting()
 
 home = os.environ['HOME']
 models_dir = f'{home}/.forkan/done/pendulum/ppo2-retrain-raw-stop'
@@ -65,9 +65,8 @@ for fi, name in [('b1', 'ent'), ('b81', 'one lat'), ('b85', 'two lat')]:
     ax.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
 
-plt.ylim(bottom=-1300, top=-100)
+plt.ylim(**ylims)
 
-ax.set_title(r'Unconstrained encoder adaption with $D_{KL}$ constraint')
 ax.set_ylabel('Median Reward')
 ax.set_xlabel('Number of Updates')
 ax.legend(loc='center right')

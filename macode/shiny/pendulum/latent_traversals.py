@@ -7,7 +7,7 @@ import seaborn as sns
 import tensorflow as tf
 
 from forkan import model_path, figure_path
-from forkan.common.utils import ls_dir
+from forkan.common.utils import ls_dir, setup_plotting, get_figure_size
 from forkan.models import VAE
 
 sns.set()
@@ -17,12 +17,14 @@ logger = logging.getLogger(__name__)
 network = 'pendulum'
 plt_shape = [1, 5]
 
+ylims = setup_plotting()
+
 
 models_dir = '{}vae-{}/'.format(model_path, network)
 dirs = ls_dir(models_dir)
 
-# for fi in ['b1', 'b81', 'b85']:
-for fi in ['b1']:
+for fi in ['b1', 'b81', 'b85']:
+# for fi in ['b1']:
     for d in dirs:
         ds_name = d.split('/')[-1].split('-')[0]
         model_name = d.split('/')[-1]
@@ -91,17 +93,22 @@ for fi in ['b1']:
         sigmas = np.moveaxis(np.exp(0.5 * logvars), 0, -1)
         sigmasmean = np.mean(sigmas, axis=1)
 
-        sns.set()
+        fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 
-        for mar in ['.', '+', '_', 'x', '*', 'p']:
-            for idx in idxes:
-                plt.plot(thetas, mus[idx], label='mus[{}]'.format(idx))
-                plt.scatter(thetas, mus[idx], linewidths=0.05, marker=mar)
+        for idx in idxes:
+            ax.plot(thetas, mus[idx], label=f'$\mu_{idx}$'.format(idx))
+            ax.scatter(thetas, mus[idx], linewidths=0.05, marker='+')
 
-            # plt.legend()
+        ax.set_ylabel('$\mu_i$')
+        ax.set_xlabel('$\\theta$')
 
-            plt.savefig(f'{figure_path}/theta_traversal_{fi}{mar}.png')
-            plt.show()
+        pi = np.pi
+        ax.set_xticks([0, pi/2, pi, 3*pi/2, 2*pi], ['0', '$\\frac{\pi}{2}$', '$\pi$', '$\\frac{3\pi}{2}$', '$2\pi$'])
+        fig.tight_layout()
+        plt.legend()
+
+        plt.savefig(f'{figure_path}/theta_traversal_{fi}.png')
+        plt.show()
 
     tf.reset_default_graph()
 
