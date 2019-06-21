@@ -20,7 +20,7 @@ for lat in [5, 16, 32, 64, 128, 256, 512, 1024]:
 
     args = [
         '--env', 'PendulumVisual-v0',
-        '--num_timesteps', '2e6',
+        '--num_timesteps', '1e7',
         '--alg', 'ppo2',
         '--latents', str(lat),
         '--network', 'cnn_pend',
