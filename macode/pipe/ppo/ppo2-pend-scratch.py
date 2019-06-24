@@ -14,8 +14,8 @@ vae_params = {
 }
 
 es = 'True'
-for rl_coef in [30, 10, 60, 1]:
-    for seed in [0, 1, 2]:
+for seed in [0, 1, 2]:
+    for rl_coef in [30, 10, 60, 1]:
         vae_params = {
             'k': k,
             'latent_dim': 5,
@@ -33,7 +33,7 @@ for rl_coef in [30, 10, 60, 1]:
 
         args = [
             '--env', 'PendulumVisual-v0',
-            '--num_timesteps', '2e6',
+            '--num_timesteps', '1e7',
             '--alg', 'ppo2',
             '--network', 'mlp',
             '--log_interval', '2',
