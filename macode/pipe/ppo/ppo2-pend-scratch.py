@@ -13,8 +13,9 @@ vae_params = {
     'beta': 1,
 }
 
-for rl_coef in [30, 10]:
-    for es in ['True']:
+es = 'True'
+for rl_coef in [30, 10, 60, 1]:
+    for seed in [0, 1, 2]:
         vae_params = {
             'k': k,
             'latent_dim': 5,
@@ -39,7 +40,7 @@ for rl_coef in [30, 10]:
             '--nminibatches', '32',
             '--noptepochs', '10',
             '--num_env', '16',
-            '--seed', '0',
+            '--seed', str(seed),
             '--tensorboard', 'True',
             '--rl_coef', str(rl_coef),
             '--k', str(k),

@@ -48,9 +48,6 @@ for fi, name in [('rlc1-k5-seed0', '$\\kappa=1$'), ('rlc10-k5-seed0', '$\\kappa=
     plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
     plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
-
-plt.ylim(bottom=-1300, top=-100)
-
 plt.ylim(**ylims)
 
 ax.set_ylabel('Median Reward')
