@@ -8,7 +8,8 @@ zetas = [2, 5, 10, 20, 30]
 for zeta in zetas:
     data = load_set('breakout-normalized-small')
 
-    v = VAE(data.shape[1:], network='atari', name='breakout', zeta=zeta, lr=1e-4, latent_dim=20)
+    v = VAE(data.shape[1:], network='atari', name='breakout', zeta=zeta, lr=1e-4, latent_dim=20,
+            tensorboard=True)
     v.train(data, num_episodes=50, print_freq=100, batch_size=128)
 
     v.s.close()
