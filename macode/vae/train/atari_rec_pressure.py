@@ -3,7 +3,7 @@ import tensorflow as tf
 from forkan.datasets import load_set
 from forkan.models import VAE
 
-zetas = [1e5, 1e6, 1e7]
+zetas = [1e5, 1e6, 1e7] # [2, 5, 30, 100, 1000, 1e4]
 
 for zeta in zetas:
     data = load_set('breakout-normalized-small')
