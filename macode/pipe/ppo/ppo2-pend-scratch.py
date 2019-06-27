@@ -14,7 +14,7 @@ vae_params = {
 }
 
 es = 'True'
-for seed in [0, 1, 2]:
+for seed in [1, 2]:
     for rl_coef in [30, 10, 60, 1]:
         vae_params = {
             'k': k,
