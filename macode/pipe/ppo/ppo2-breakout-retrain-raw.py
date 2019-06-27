@@ -38,7 +38,6 @@ for seed in [0, 1, 2]:
         '--seed', str(seed),
         '--k', str(k),
         '--tensorboard', 'True',
-        '--log_weights', 'True',
     ]
 
     main(args, build_fn=build_pend_env, vae_params=vae_params)
