@@ -11,7 +11,7 @@ vae_names = [
     'breakout-b1.0-lat20-lr0.0001-2019-04-20T18/00',
 ]
 
-for seed in [0]:
+for seed in [1, 2]:
     for vae_name in vae_names:
         def build_pend_env(args, **kwargs):
             alg = args.alg
