@@ -37,7 +37,7 @@ for bet in [5, 20, 30, 60]:
             '--plot_thetas', 'True',
             '--tensorboard', 'True',
             '--k', str(k),
-            '--rl_coef', str(30),
+            '--rl_coef', str(rlc),
             '--target_kl', '0.01',
             '--early_stop', 'True',
         ]
