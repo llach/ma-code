@@ -27,7 +27,7 @@ for rlc in [1, 10, 20]:
 
     args = [
         '--env', 'BreakoutNoFrameskip-v4',
-        '--num_timesteps', '2e6',
+        '--num_timesteps', '1e7',
         '--alg', 'ppo2',
         '--network', 'mlp',
         '--log_interval', '2',
