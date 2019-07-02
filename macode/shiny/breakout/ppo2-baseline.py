@@ -13,9 +13,9 @@ ylims, tick_setup = setup_plotting('break-baseline')
 fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/stock-models/'
+models_dir = f'{home}/.forkan/done/breakout/baselines/'
 
-for fi, name in [('ppo', '')]:
+for fi, name in [('', '')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]
@@ -29,11 +29,11 @@ plt.ylim(**ylims)
 ax.set_ylabel('Median Reward')
 ax.set_xlabel('Steps')
 plt.xticks(tick_setup[0], tick_setup[1])
-ax.legend(loc='center right')
+# ax.legend(loc='center right')
 
 fig.tight_layout()
 
-plt.savefig(f'{home}/.forkan/done/stock-models/breakout-baseline.png')
+plt.savefig(f'{models_dir}/breakout-baseline.png')
 plt.show()
 
 logger.info('Done.')

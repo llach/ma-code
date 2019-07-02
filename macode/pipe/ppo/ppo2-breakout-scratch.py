@@ -6,8 +6,9 @@ from baselines.common.vec_env.vec_frame_stack import VecFrameStack
 from baselines.run import main
 
 k = 4
+seed = 0
 
-for alpha in [1e-5, 1e-10]:
+for rlc in [1, 10, 20]:
     vae_params = {
         'k': k,
         'latent_dim': 20,
@@ -34,9 +35,9 @@ for alpha in [1e-5, 1e-10]:
         '--noptepochs', '10',
         '--num_env', '16',
         '--v_net', 'atari',
-        '--seed', str(0),
+        '--seed', str(seed),
+        '--rl_coef', str(rlc),
         '--k', str(k),
-        '--alpha', str(alpha),
         '--tensorboard', 'True',
     ]
 
