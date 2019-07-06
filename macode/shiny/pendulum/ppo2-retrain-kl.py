@@ -15,7 +15,7 @@ fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 home = os.environ['HOME']
 models_dir = f'{home}/.forkan/done/pendulum/ppo2-retrain-kl'
 
-for fi, name in [('b1', 'ent'), ('b81', 'one lat'), ('b85', 'two lat')]:
+for fi, name in [('b1', '$VAE^{ent}$'), ('b81', '$VAE^{one}$'), ('b85', '$VAE^{two}$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]

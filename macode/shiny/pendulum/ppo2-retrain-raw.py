@@ -16,7 +16,7 @@ fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 home = os.environ['HOME']
 models_dir = f'{home}/.forkan/done/pendulum/ppo2-retrain-raw'
 
-for fi, name in [('b1', 'ent'), ('b81', 'one lat'), ('b85', 'two lat')]:
+for fi, name in [('b1', '$VAE^{ent}$'), ('b81', '$VAE^{one}$'), ('b85', '$VAE^{two}$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]
@@ -31,7 +31,7 @@ plt.ylim(**ylims)
 ax.set_ylabel('Median Reward')
 ax.set_xlabel('Steps')
 plt.xticks(tick_setup[0], tick_setup[1])
-ax.legend(loc='center right')
+ax.legend(loc='upper right')
 
 fig.tight_layout()
 
