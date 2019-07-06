@@ -33,7 +33,7 @@ plt.xticks(tick_setup[0], tick_setup[1])
 
 fig.tight_layout()
 
-plt.savefig(f'{models_dir}/breakout-baseline.png')
+plt.savefig(f'{models_dir}/breakout-baseline.pdf')
 plt.show()
 
 logger.info('Done.')
