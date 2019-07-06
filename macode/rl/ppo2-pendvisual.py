@@ -7,8 +7,8 @@ from baselines.run import main
 
 k = 5
 
-for lat in [5, 16, 32, 64, 128, 256, 512]:
-    for seed in [0, 1, 2]:
+for seed in [0, 1, 2]:
+    for lat in [5, 16, 32, 64, 128, 256, 512]:
         def build_pend_env(args, **kwargs):
             alg = args.alg
             seed = args.seed
@@ -24,7 +24,7 @@ for lat in [5, 16, 32, 64, 128, 256, 512]:
             '--num_timesteps', '1e7',
             '--alg', 'ppo2',
             '--latents', str(lat),
-            '--network', 'cnn_pend',
+            '--network', 'cnn_pend_shared',
             '--nminibatches', '32',
             '--noptepochs', '10',
             '--num_env', '16',
