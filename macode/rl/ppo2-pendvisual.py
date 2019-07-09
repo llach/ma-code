@@ -8,7 +8,7 @@ from baselines.run import main
 k = 5
 
 for seed in [0, 1, 2]:
-    for lat in [5, 16, 32, 64, 128, 256, 512]:
+    for lat in [512, 5, 16, 64, 128]:
         def build_pend_env(args, **kwargs):
             alg = args.alg
             seed = args.seed
