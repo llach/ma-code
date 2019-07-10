@@ -53,11 +53,11 @@ plt.ylim(**ylims)
 ax.set_ylabel('Median Reward')
 ax.set_xlabel('Steps')
 plt.xticks(tick_setup[0], tick_setup[1])
-ax.legend(loc='center right')
+ax.legend(loc='lower right')
 
 fig.tight_layout()
 
-plt.savefig(f'{models_dir}/ret-raw-stop-bl.pdf')
+plt.savefig(f'{home}/.forkan/done/pendulum/ret-raw-stop-bl.pdf')
 plt.show()
 
 logger.info('Done.')

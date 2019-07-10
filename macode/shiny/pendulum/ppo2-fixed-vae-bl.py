@@ -54,7 +54,7 @@ ax.legend(loc='lower right')
 
 fig.tight_layout()
 
-plt.savefig(f'{home}/.forkan/done/pendulum/ppo2-fixed-vae/pend-fixed-bl.pdf')
+plt.savefig(f'{home}/.forkan/done/pendulum//pend-fixed-bl.pdf')
 plt.show()
 
 logger.info('Done.')
