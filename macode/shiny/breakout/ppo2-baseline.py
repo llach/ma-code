@@ -15,25 +15,26 @@ fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 home = os.environ['HOME']
 models_dir = f'{home}/.forkan/done/breakout/baselines/'
 
-for fi, name in [('', '')]:
+col = '#4e79a7'
+for fi, name in [('', '$PPO^{\\text{break}}$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]
     ys = data['mean_reward']
 
-    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
-    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
+    plt.plot(xs, np.nanmedian(ys, axis=0), label=name, color=col)
+    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33, color=col)
 
 plt.ylim(**ylims)
 
 ax.set_ylabel('Median Reward')
 ax.set_xlabel('Steps')
 plt.xticks(tick_setup[0], tick_setup[1])
-# ax.legend(loc='center right')
+ax.legend(loc='upper left')
 
 fig.tight_layout()
 
-plt.savefig(f'{models_dir}/breakout-baseline.pdf')
+plt.savefig(f'{home}/.forkan/done/breakout/figures/breakout-baseline.pdf')
 plt.show()
 
 logger.info('Done.')

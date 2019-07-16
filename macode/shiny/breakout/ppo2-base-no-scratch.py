@@ -13,17 +13,6 @@ ylims, tick_setup = setup_plotting('break-baseline')
 fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 
 home = os.environ['HOME']
-models_dir = f'{home}/.forkan/done/breakout/ppo2-scratch-clean'
-
-colv='#64b5cd'
-for fi, name in [('rlc20-', '$PPO^{\\text{VAE}}$')]:
-    data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
-
-    xs = data['total_timesteps'][0]
-    ys = data['mean_reward']
-
-    plt.plot(xs, np.nanmedian(ys, axis=0), label=name, color=colv)
-    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33, color=colv)
 
 models_dir = f'{home}/.forkan/done/breakout/ppo2-break-fixed'
 
@@ -72,7 +61,7 @@ ax.legend(loc='upper left')
 
 fig.tight_layout()
 
-plt.savefig(f'{home}/.forkan/done/breakout/figures/all-baseline.pdf')
+plt.savefig(f'{home}/.forkan/done/breakout/figures/base-no-scratch.pdf')
 plt.show()
 
 logger.info('Done.')

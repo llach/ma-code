@@ -15,14 +15,17 @@ fig, ax = plt.subplots(1, 1, figsize=get_figure_size())
 home = os.environ['HOME']
 models_dir = f'{home}/.forkan/done/breakout/ppo2-scratch-clean'
 
+col = ['#d4a6e8', '#ccb974', '#64b5cd']
+i = 0
 for fi, name in [('rlc1-', '$\kappa=1$'), ('rlc10-', '$\kappa=10$'), ('rlc20-', '$\kappa=20$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]
     ys = data['mean_reward']
 
-    plt.plot(xs, np.nanmedian(ys, axis=0), label=name)
-    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
+    plt.plot(xs, np.nanmedian(ys, axis=0), label=name, color=col[i])
+    plt.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33, color=col[i])
+    i += 1
 
 
 plt.ylim(bottom=-1, top=50)
@@ -36,7 +39,7 @@ ax.legend(loc='upper left')
 
 fig.tight_layout()
 
-plt.savefig(f'{models_dir}/kappa-nostop.pdf')
+plt.savefig(f'{home}/.forkan/done/breakout/figures/kappa-nostop.pdf')
 plt.show()
 
 logger.info('Done.')

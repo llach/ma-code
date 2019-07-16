@@ -17,7 +17,7 @@ home = os.environ['HOME']
 
 models_dir = f'{home}/.forkan/done/pendulum/ppo2-gt'
 
-for fi, name in [('', 'with $\omega_t$')]:
+for fi, name in [('', '$PPO^{\\omega}$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]
@@ -27,7 +27,7 @@ for fi, name in [('', 'with $\omega_t$')]:
     ax.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
 models_dir = f'{home}/.forkan/done/pendulum/ppo2-gt-theta'
-for fi, name in [('', 'without $\omega_t$')]:
+for fi, name in [('', '$PPO^{\\text{scratch}}$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]
@@ -38,15 +38,17 @@ for fi, name in [('', 'without $\omega_t$')]:
 
 models_dir = f'{home}/.forkan/done/pendulum/ppo2-retrain-raw-stop'
 
-for fi, name in [('b1', '$VAE^{ent}$'), ('b81', '$VAE^{one}$'), ('b85', '$VAE^{two}$')]:
+col = ['#7f7f7f', '#ed97ca', '#a8786e',]
+i = 0
+for fi, name in [('b1', '$VAE^{\\text{ent}}$'), ('b81', '$VAE^{\\text{one}}$'), ('b85', '$VAE^{\\text{two}}$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]
     ys = data['mean_reward']
 
-    ax.plot(xs, np.nanmedian(ys, axis=0), label=name)
-    ax.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
-
+    ax.plot(xs, np.nanmedian(ys, axis=0), label=name, color=col[i])
+    ax.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33, color=col[i])
+    i+= 1
 
 plt.ylim(**ylims)
 
@@ -57,7 +59,7 @@ ax.legend(loc='lower right')
 
 fig.tight_layout()
 
-plt.savefig(f'{home}/.forkan/done/pendulum/ret-raw-stop-bl.pdf')
+plt.savefig(f'{home}/.forkan/done/pendulum/figures/ret-raw-stop-bl.pdf')
 plt.show()
 
 logger.info('Done.')
