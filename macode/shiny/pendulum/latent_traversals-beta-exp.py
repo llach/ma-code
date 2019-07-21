@@ -105,11 +105,11 @@ for rlc in [1, 30]:
                 ax.scatter(thetas, mus[idx], linewidths=0.05, marker='+')
 
             ax.set_ylabel('$\mu_i$')
-            ax.set_xlabel('$\\theta$')
+            ax.set_xlabel('$\\alpha$')
             # ax.legend(loc='upper right')
 
             pi = np.pi
-            ax.set_xticks([0, pi/2, pi, 3*pi/2, 2*pi], ['0', '$\\frac{\pi}{2}$', '$\pi$', '$\\frac{3\pi}{2}$', '$2\pi$'])
+            plt.xticks([0, pi/2, pi, 3*pi/2, 2*pi], ['0', '$\\frac{\pi}{2}$', '$\pi$', '$\\frac{3\pi}{2}$', '$2\pi$'])
             fig.tight_layout()
             plt.legend()
 

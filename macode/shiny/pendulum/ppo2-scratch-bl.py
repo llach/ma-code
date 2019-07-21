@@ -26,7 +26,7 @@ for fi, name in [('', '$PPO^{\\omega}$')]:
     ax.fill_between(xs, np.nanpercentile(ys, 25, axis=0), np.nanpercentile(ys, 75, axis=0), alpha=0.33)
 
 models_dir = f'{home}/.forkan/done/pendulum/ppo2-gt-theta'
-for fi, name in [('', '$PPO^{\\text{scratch}}$')]:
+for fi, name in [('', '$PPO^{\\text{stack}}$')]:
     data = read_keys(models_dir, fi, ['mean_reward', 'total_timesteps'])
 
     xs = data['total_timesteps'][0]

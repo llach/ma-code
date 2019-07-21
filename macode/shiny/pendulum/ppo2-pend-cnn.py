@@ -34,7 +34,7 @@ ax.legend(loc='center right')
 
 fig.tight_layout()
 
-plt.savefig(f'{models_dir}/cnn.pdf')
+plt.savefig(f'{home}/.forkan/done/pendulum/figures/cnn.pdf')
 plt.show()
 
 logger.info('Done.')
@@ -64,7 +64,7 @@ ax.legend(loc='center right')
 
 fig.tight_layout()
 
-plt.savefig(f'{models_dir}/cnn-all.pdf')
+plt.savefig(f'{home}/.forkan/done/pendulum/figures/cnn-all.pdf')
 plt.show()
 
 logger.info('Done.')
